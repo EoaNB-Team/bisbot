@@ -1,5 +1,6 @@
 package commands.mariadb.hiatuses;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -10,7 +11,9 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comAddHiatus implements commands.Command{
+public class comAddHiatus implements DBCommand {
+    private final String commandName = "hiatus";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event);
@@ -107,11 +110,16 @@ public class comAddHiatus implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "hiatus <user> <start date> <end date> <reason> [comment]";
+        return Secrets.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
     }
 
     @Override
     public String longhelp() {
         return "Adds a hiatus record to the database. Dates have to be in `YYYY-MM-DD` format. `reason` and `comment` have to be inside \"s.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

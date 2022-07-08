@@ -11,7 +11,7 @@ import util.Secrets;
 
 import java.awt.*;
 
-public class ReactionAddedListener extends ListenerAdapter {
+public class ReactionAddedListener extends ListenerAdapter { // WTF IS HAPPENING HERE TOO MUCH TEXT
     public void onMessageReactionAdd(MessageReactionAddEvent event) {
         //adding a project request
         String react = event.getReactionEmote().getName();

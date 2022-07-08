@@ -6,6 +6,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Properties;
 
 public class Secrets {
@@ -40,32 +41,41 @@ public class Secrets {
     public static final HashMap<String, ProjectRemoveRequest> projectRemList = new HashMap<>();
     public static String projectEndchan = ADMINCHAN;
 
-    private static Properties readProperties() throws Exception {
-        Properties properties = new Properties();
+    private static Properties properties;
+
+    public static void initProperties() throws Exception {
+        Properties prop = new Properties();
         FileInputStream fis;
         if (SystemUtils.IS_OS_LINUX) {
             fis = new FileInputStream("/opt/edbotj_dbot/prop.xml");
         } else {
             fis = new FileInputStream("prop.xml");
         }
-        properties.loadFromXML(fis);
-
-        return properties;
+        prop.loadFromXML(fis);
+        properties = prop;
     }
 
-    public static String getTokenM() throws Exception {
-        return readProperties().getProperty("tokenM");
+    public static String getTokenM() {
+        return getProperty("tokenM");
     }
 
-    public static String getTokenB() throws Exception {
-        return readProperties().getProperty("tokenB");
+    public static String getTokenB() {
+        return getProperty("tokenB");
     }
 
-    public static String getDBAccess() throws Exception {
-        return readProperties().getProperty("dbAccess");
+    public static String getDBAccess() {
+        return getProperty("dbAccess");
     }
 
-    public static String getDBHost() throws Exception {
-        return readProperties().getProperty("dbHost");
+    public static String getDBHost() {
+        return getProperty("dbHost");
+    }
+
+    private static String getProperty(String name) {
+        if (Objects.isNull(properties)) {
+            return null;
+        }
+
+        return properties.getProperty(name);
     }
 }

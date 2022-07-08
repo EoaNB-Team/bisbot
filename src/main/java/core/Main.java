@@ -1,14 +1,14 @@
 package core;
 
 import commands.*;
+import commands.interfaces.AdminCommand;
+import commands.interfaces.Command;
+import commands.interfaces.DBCommand;
+import commands.interfaces.GeneralCommand;
 import commands.mariadb.devs.*;
-import commands.mariadb.playtest.*;
-import commands.mariadb.projects.*;
-import commands.mariadb.hiatuses.*;
 import listeners.CommandListener;
 import listeners.ReactionAddedListener;
 import listeners.ReadyListener;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
@@ -18,15 +18,19 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.LoggerFactory;
 import util.Secrets;
 
+import java.util.List;
+import java.util.Objects;
+
 public class Main {
     public static JDABuilder builder;
 
-    public static final ch.qos.logback.classic.Logger logger
+    public static final ch.qos.logback.classic.Logger LOGGER
             = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] arguments) throws Exception {
-        builder = JDABuilder.createDefault(Secrets.getTokenM());
-        builder.setToken(Secrets.getTokenM());
+        String token = Secrets.getTokenM();
+        builder = JDABuilder.createDefault(token);
+        builder.setToken(token);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setAutoReconnect(true);
         builder.setActivity(Activity.listening(Secrets.prefix + "help | v" + Secrets.VERSION));
@@ -41,7 +45,9 @@ public class Main {
         comVicari.AddVicari();
         comProcuratores.AddProcuratores();
 
-        JDA api = builder.build();
+        Secrets.initProperties();
+
+        builder.build();
     }
 
     public static void AddListeners() {
@@ -51,7 +57,23 @@ public class Main {
     }
 
     public static void AddCommands() {
-        Command help = new comHelp();
+        CommandBucket cb = new CommandBucket();
+        CommandHandler.commandBucket = cb;
+
+        for (Command c : cb.getCommands().values()) {
+            boolean isAdmin = c instanceof AdminCommand;
+            boolean isGeneral = c instanceof GeneralCommand;
+            boolean isDB = c instanceof DBCommand;
+
+            String permLevel = isAdmin ? "Admin" : "Dev";
+            String pageLevel = isDB ? "DB" : (isGeneral ? "General" : null);
+            if (Objects.isNull(pageLevel)) continue;
+
+            List<String> commandHelpRepo = CommandHandler.commandHelpRepos.get(permLevel).get(pageLevel);
+            commandHelpRepo.add("```" + c.help() + "```: " + c.longhelp() + "\n");
+        }
+
+        /*Command help = new comHelp();
         Command ahelp = new comAdminHelp();
         Command say = new comSay();
         Command info = new comInfo();
@@ -78,11 +100,11 @@ public class Main {
         Command aplay = new comAddReport();
         Command lplayreq = new comReqAllRequests();
         Command rmvplayreq = new comRemRequest();
-        Command aplayreq = new comAddRequest();
+        Command aplayreq = new comAddRequest();*/
 
         //Commands
         //General
-        CommandHandler.commands.put("help", help);
+        /*CommandHandler.commands.put("help", help);
         CommandHandler.commands.put("ahelp", ahelp);
         CommandHandler.commands.put("say", say);
         CommandHandler.commands.put("info", info);
@@ -153,6 +175,6 @@ public class Main {
         CommandHandler.commandsAdminHelpDB.add("```" + devall.help() + "```: " + devall.longhelp() + "\n");
         CommandHandler.commandsAdminHelpDB.add("```" + devclear.help() + "```: " + devclear.longhelp() + "\n");
         CommandHandler.commandsAdminHelpDB.add("```" + addproject.help() + "```: " + addproject.longhelp() + "\n");
-        CommandHandler.commandsAdminHelpDB.add("```" + delproject.help() + "```: " + delproject.longhelp() + "\n");
+        CommandHandler.commandsAdminHelpDB.add("```" + delproject.help() + "```: " + delproject.longhelp() + "\n");*/
     }
 }

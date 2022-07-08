@@ -1,6 +1,7 @@
-package commands;
+package commands.general;
 
-import core.ErrorHandler;
+import commands.interfaces.AdminCommand;
+import commands.interfaces.GeneralCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
@@ -8,7 +9,9 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comDebug implements Command{
+public class comDebug implements AdminCommand, GeneralCommand {
+    private final String commandName = "debug";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkOwner(event);
@@ -33,11 +36,16 @@ public class comDebug implements Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "debug";
+        return Secrets.prefix + commandName;
     }
 
     @Override
     public String longhelp() {
         return "Toggles the debug mode of edbotJ. Only usable by the owner.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

@@ -12,8 +12,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>9</source>
+                    <target>9</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -44,76 +44,86 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.bmartel</groupId>
-            <artifactId>jspeedtest</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>com.moandjiezana.toml</groupId>
-            <artifactId>toml4j</artifactId>
-            <version>LATEST</version>
+            <version>1.9</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>LATEST</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>fr.bmartel</groupId>
+            <artifactId>jspeedtest</artifactId>
+            <version>1.32.1</version>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>com.moandjiezana.toml</groupId>
+            <artifactId>toml4j</artifactId>
+            <version>0.7.2</version>
+        </dependency>-->
+        <!--<dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
+            <version>1.4.9</version>
+        </dependency>-->
+        <!--<dependency>
             <groupId>com.jagrosh</groupId>
             <artifactId>jda-utilities</artifactId>
             <version>LATEST</version>
             <scope>compile</scope>
             <type>pom</type>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>4.3.0_277</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.sedmelluq</groupId>
             <artifactId>lavaplayer</artifactId>
             <version>LATEST</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>LATEST</version>
+            <version>1.7.36</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>LATEST</version>
+            <version>1.2.11</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>LATEST</version>
+            <version>1.2.11</version>
         </dependency>
-        <dependency>
-            <groupId>org.brunocvcunha.jiphy</groupId>
-            <artifactId>jiphy</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.8-dmr</version>
-        </dependency>
+            <version>8.0.29</version>
+        </dependency>-->
         <!--
         <dependency>
             <groupId>org.jsoup</groupId>

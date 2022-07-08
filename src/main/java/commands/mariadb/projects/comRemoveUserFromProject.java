@@ -1,5 +1,6 @@
 package commands.mariadb.projects;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,7 +9,9 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comRemoveUserFromProject implements commands.Command{
+public class comRemoveUserFromProject implements DBCommand {
+    private final String commandName = "prjremove";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event);
@@ -66,11 +69,16 @@ public class comRemoveUserFromProject implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "prjremove <user>";
+        return Secrets.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
         return "Removes a user from any projects.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

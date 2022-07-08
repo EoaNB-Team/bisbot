@@ -1,5 +1,7 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -10,7 +12,9 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comAddAllDevs implements commands.Command{
+public class comAddAllDevs implements AdminCommand, DBCommand {
+    private final String commandName = "devall";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -24,7 +28,7 @@ public class comAddAllDevs implements commands.Command{
                 ret = Boolean.parseBoolean(Args[0]);
             }
         } catch (Exception e) {
-            ErrorHandler.CustomEmbedError("`hide` is not boolean. Use either `true` or `false`.", event);
+            ErrorHandler.CustomEmbedError("`hide` is not boolean. Use either `true`, `false`, `1` or `0`.", event);
             return;
         }
         DevManager.ClearDevsDB(event);
@@ -80,11 +84,16 @@ public class comAddAllDevs implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "devall [hide]";
+        return Secrets.prefix + commandName + " [hide]";
     }
 
     @Override
     public String longhelp() {
         return "Adds all devs to the dev database by clearing it first and pulling all devs after. Use with caution! `[hide]` boolean decides whether the bot should hide success messages (default `true`).";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

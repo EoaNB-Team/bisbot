@@ -1,5 +1,6 @@
 package commands.mariadb.playtest;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -13,7 +14,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-public class comAddReport implements commands.Command {
+public class comAddReport implements DBCommand {
+    private final String commandName = "aplay";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event) && !event.isFromType(ChannelType.PRIVATE);
@@ -119,7 +122,7 @@ public class comAddReport implements commands.Command {
 
     @Override
     public String help() {
-        return Secrets.prefix + "aplay <zone> <local> <name> <local:[comment]>";
+        return Secrets.prefix + commandName + " <zone> <local> <name> <local:[comment]>";
     }
 
     @Override
@@ -129,5 +132,10 @@ public class comAddReport implements commands.Command {
                 " `1`, `true` or `file`, link corresponds to `0`, `false` or `link`. `comment` is " +
                 "a comment for the playtest. Notice that if the playtest is submitted as a link, `comment`" +
                 " changes to required and has to contain a URL.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

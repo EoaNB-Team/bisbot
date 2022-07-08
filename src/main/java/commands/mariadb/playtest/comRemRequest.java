@@ -1,5 +1,6 @@
 package commands.mariadb.playtest;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,7 +10,9 @@ import util.SharedComRequirements;
 import java.util.Locale;
 import java.util.Objects;
 
-public class comRemRequest implements commands.Command {
+public class comRemRequest implements DBCommand {
+    private final String commandName = "rmvplayreq";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event) && !event.isFromType(ChannelType.PRIVATE);
@@ -55,11 +58,16 @@ public class comRemRequest implements commands.Command {
 
     @Override
     public String help() {
-        return Secrets.prefix + "rmvplayreq <zone> <name>";
+        return Secrets.prefix + commandName + " <zone> <name>";
     }
 
     @Override
     public String longhelp() {
         return "Removes a playtest request from the database.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

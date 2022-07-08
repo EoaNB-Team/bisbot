@@ -1,5 +1,6 @@
 package commands.mariadb.hiatuses;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,7 +9,9 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comUpdateHiatus implements commands.Command{
+public class comUpdateHiatus implements DBCommand {
+    private final String commandName = "hupdate";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event);
@@ -86,11 +89,16 @@ public class comUpdateHiatus implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "hupdate <user> <start date> <end date> <reason> [comment]";
+        return Secrets.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
     }
 
     @Override
     public String longhelp() {
         return "Updates a hiatus record in the database. Updating other people's records is only possible for Centurions.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

@@ -1,10 +1,14 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
 import util.SharedComRequirements;
 
-public class comClearDevs implements commands.Command{
+public class comClearDevs implements AdminCommand, DBCommand {
+    private final String commandName = "devclear";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -22,11 +26,16 @@ public class comClearDevs implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "devclear";
+        return Secrets.prefix + commandName;
     }
 
     @Override
     public String longhelp() {
         return "Resets the dev database. Use with caution!";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

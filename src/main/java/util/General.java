@@ -30,27 +30,10 @@ public class General {
         long runt = System.nanoTime() - Secrets.STARTTIME;
         long mem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         eb.addField("edbotJ", "Runtime: " + TimeUnit.HOURS.convert(runt, TimeUnit.NANOSECONDS) + "h" + "\nU.Memory: " + mem / 1000000 + "MB" + "\nVersion: " + Secrets.VERSION, true);
-        eb.addField("Discord", "Guilds: " + CountGuilds(usedJDA.getGuilds()) + "\nUsers: " + CountUsers(usedJDA.getUsers()) + "\nPing: " + usedJDA.getGatewayPing() + "ms", true);
+        eb.addField("Discord", "Guilds: " + usedJDA.getGuilds().size() + "\nUsers: " + usedJDA.getUsers().size() + "\nPing: " + usedJDA.getGatewayPing() + "ms", true);
         RestAction<User> u = usedJDA.retrieveUserById(Secrets.OWNER);
         eb.addField("Info", "edbotJ was written by " + u.submit().get().getAsMention() + " with the help of [JDA 4.2](https://github.com/DV8FromTheWorld/JDA).", true);
-
         return eb;
-    }
-
-    public static int CountGuilds(java.util.List<Guild> guilds) {
-        int count = 0;
-        for (int i = 0; i < guilds.size(); i++) {
-            count++;
-        }
-        return count;
-    }
-
-    public static int CountUsers(List<User> users) {
-        int count = 0;
-        for (int i = 0; i < users.size(); i++) {
-            count++;
-        }
-        return count;
     }
 
     /**

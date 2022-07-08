@@ -1,5 +1,6 @@
 package commands.mariadb.playtest;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -11,7 +12,9 @@ import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
 
-public class comAddRequest implements commands.Command {
+public class comAddRequest implements DBCommand {
+    private final String commandName = "aplayreq";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event) && !event.isFromType(ChannelType.PRIVATE);
@@ -63,7 +66,7 @@ public class comAddRequest implements commands.Command {
             eb.setColor(new Color(3, 193, 19));
             eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
             eb.setTitle("New Playtest Request Added for " + zone);
-            eb.setDescription("Submit a playtest for this request with `" + Secrets.prefix + "aplay <...>` when ready (for syntax see `" + Secrets.prefix + "!help db`).");
+            eb.setDescription("Submit a playtest for this request with `" + Secrets.prefix + "aplay <...>` when ready (for syntax see `" + Secrets.prefix + "help db`).");
             eb.addField(name, "by " + username + "\n\n" + comment, false);
 
             chan.sendMessage(eb.build()).queue();
@@ -77,11 +80,16 @@ public class comAddRequest implements commands.Command {
 
     @Override
     public String help() {
-        return Secrets.prefix + "aplayreq <zone> <name> [comment]";
+        return Secrets.prefix + commandName + " <zone> <name> [comment]";
     }
 
     @Override
     public String longhelp() {
         return "Adds a playtest request to the database.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

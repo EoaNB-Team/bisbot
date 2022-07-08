@@ -11,14 +11,17 @@ import java.util.Objects;
 
 public class ReadyListener extends ListenerAdapter {
     public void onReady(@NotNull ReadyEvent event) {
-        if (Secrets.debug) {
-            @NotNull Guild g = Objects.requireNonNull(event.getJDA().getGuildById(Secrets.NODEGUILD));
-            Member m = g.retrieveMemberById(Secrets.OWNER).complete();
-            User owner = m.getUser();
-
-            owner.openPrivateChannel().queue((channel) -> {
-                try { channel.sendMessage(General.getInfoEmbed(event, null, "edbotJ Connected:").build()).queue(); } catch (Exception ignored) { }
-            });
+        if (!Secrets.debug) {
+            return;
         }
+
+        @NotNull Guild g = Objects.requireNonNull(event.getJDA().getGuildById(Secrets.NODEGUILD));
+        Member m = g.retrieveMemberById(Secrets.OWNER).complete();
+        User owner = m.getUser();
+
+        owner.openPrivateChannel().queue((channel) -> {
+            try { channel.sendMessage(General.getInfoEmbed(event, null, "edbotJ Connected:").build()).queue(); }
+            catch (Exception ignored) { }
+        });
     }
 }

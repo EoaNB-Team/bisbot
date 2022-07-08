@@ -1,5 +1,6 @@
 package commands.mariadb.projects;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,7 +9,9 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comAddUserToProject implements commands.Command{
+public class comAddUserToProject implements DBCommand {
+    private final String commandName = "prjadd";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event);
@@ -81,11 +84,16 @@ public class comAddUserToProject implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "prjadd <user> <projectid> [comment]";
+        return Secrets.prefix + commandName + " <user> <projectid> [comment]";
     }
 
     @Override
     public String longhelp() {
         return "Adds a user to a project. `comment` has to be inside \"s. Note that `projectid` is to be specified without the `p_` prefix.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

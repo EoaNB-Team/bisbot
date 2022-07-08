@@ -1,5 +1,6 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.GeneralCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
@@ -7,10 +8,12 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comProcuratores implements commands.Command{
+public class comProcuratores implements GeneralCommand {
+    private final String commandName = "jobs";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
-        return SharedComRequirements.checkSelf(event);
+        return !SharedComRequirements.checkSelf(event);
     }
 
     @Override
@@ -40,11 +43,16 @@ public class comProcuratores implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "jobs";
+        return Secrets.prefix + commandName;
     }
 
     @Override
     public String longhelp() {
         return "Lists all current job roles/procuratores.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

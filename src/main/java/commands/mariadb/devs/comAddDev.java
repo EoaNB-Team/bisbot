@@ -1,5 +1,7 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,7 +11,9 @@ import util.SharedComRequirements;
 
 import java.util.List;
 
-public class comAddDev implements commands.Command{
+public class comAddDev implements AdminCommand, DBCommand {
+    private final String commandName = "devall";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -49,11 +53,16 @@ public class comAddDev implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "dev <user>";
+        return Secrets.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
         return "Manually adds a user to the dev database.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

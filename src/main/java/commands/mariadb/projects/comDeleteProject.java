@@ -1,5 +1,7 @@
 package commands.mariadb.projects;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
@@ -7,7 +9,9 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comDeleteProject implements commands.Command{
+public class comDeleteProject implements AdminCommand, DBCommand {
+    private final String commandName = "delproject";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -39,11 +43,16 @@ public class comDeleteProject implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "delproject <projectid>";
+        return Secrets.prefix + commandName + " <projectid>";
     }
 
     @Override
     public String longhelp() {
         return "Deletes a project. Note that `projectid` is to be specified without the `p_` prefix.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

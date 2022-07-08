@@ -1,11 +1,15 @@
 package commands.mariadb.projects;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
 import util.SharedComRequirements;
 
-public class comAddProject implements commands.Command{
+public class comAddProject implements AdminCommand, DBCommand {
+    private final String commandName = "addproject";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -48,11 +52,16 @@ public class comAddProject implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "addproject <projectid> <projectname> <projectdesc>";
+        return Secrets.prefix + commandName + " <projectid> <projectname> <projectdesc>";
     }
 
     @Override
     public String longhelp() {
         return "Creates a new project. Note that `projectid` is to be specified without the `p_` prefix.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

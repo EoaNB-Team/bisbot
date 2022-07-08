@@ -1,5 +1,6 @@
 package commands.mariadb.hiatuses;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -11,7 +12,9 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comRemoveHiatus implements commands.Command{
+public class comRemoveHiatus implements DBCommand {
+    private final String commandName = "hremove";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event);
@@ -71,11 +74,16 @@ public class comRemoveHiatus implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "hremove <user>";
+        return Secrets.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
         return "Removes a hiatus record from the database. Deleting other people's records is only possible for Centurions.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

@@ -1,11 +1,15 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Secrets;
 import util.SharedComRequirements;
 
-public class comRemoveDev implements commands.Command{
+public class comRemoveDev implements AdminCommand, DBCommand {
+    private final String commandName = "devall";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -35,11 +39,16 @@ public class comRemoveDev implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "rdev <user>";
+        return Secrets.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
         return "Manually removes a user from the dev database.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

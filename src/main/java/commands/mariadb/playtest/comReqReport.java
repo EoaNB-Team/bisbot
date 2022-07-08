@@ -3,6 +3,7 @@ package commands.mariadb.playtest;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -17,7 +18,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-public class comReqReport implements commands.Command {
+public class comReqReport implements DBCommand {
+    private final String commandName = "rqplay";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCuria(event) && !event.isFromType(ChannelType.PRIVATE);
@@ -95,11 +98,16 @@ public class comReqReport implements commands.Command {
 
     @Override
     public String help() {
-        return Secrets.prefix + "rqplay <zone> <name>";
+        return Secrets.prefix + commandName + " <zone> <name>";
     }
 
     @Override
     public String longhelp() {
         return "Requests a playtest report from the database.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

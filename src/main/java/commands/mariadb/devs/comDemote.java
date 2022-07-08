@@ -1,5 +1,6 @@
 package commands.mariadb.devs;
 
+import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -10,7 +11,9 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comDemote implements commands.Command{
+public class comDemote implements DBCommand {
+    private final String commandName = "demote";
+
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
@@ -92,11 +95,16 @@ public class comDemote implements commands.Command{
 
     @Override
     public String help() {
-        return Secrets.prefix + "demote <user>";
+        return Secrets.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
         return "Demotes a user.";
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }

@@ -11,7 +11,7 @@ public class CommandParser {
     public static CommandContainer parser(String raw, MessageReceivedEvent event) {
         String beheaded = raw.replaceFirst(Secrets.prefix, ""); // prefix
         beheaded = beheaded.replaceAll(" +", " "); // multiple spaces
-        beheaded = beheaded.replaceAll("Åg", "\"").replaceAll("Åh", "\""); // unicode quotes
+        beheaded = beheaded.replaceAll("[\\u201C\\u201D\\u0022\\u00AB\\u00BB\\u201E\\u201F]", "\""); // unicode quotes
 
         String[] splitBeheaded;
         if (raw.contains("\"") && raw.contains(" ")) {
