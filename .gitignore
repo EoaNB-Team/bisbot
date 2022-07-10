@@ -6,3 +6,5 @@
 /target/
 /prop.xml
 /.idea/
+/build/
+/.gradle/
