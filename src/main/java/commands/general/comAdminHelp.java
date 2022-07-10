@@ -5,7 +5,7 @@ import commands.interfaces.GeneralCommand;
 import core.CommandHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -140,7 +140,7 @@ public class comAdminHelp implements AdminCommand, GeneralCommand {
             eb.setColor(new Color(3, 193, 19));
             eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
             eb.setTitle("edbotJ Admin Help:");
-            eb.setDescription("Use `" + Secrets.prefix + "ahelp [type]` to further define the area of admin commands you want help with. (e.g. `" + Secrets.prefix + "ahelp db`)");
+            eb.setDescription("Use `" + Settings.prefix + "ahelp [type]` to further define the area of admin commands you want help with. (e.g. `" + Settings.prefix + "ahelp db`)");
             eb.addField("Available admin `[type]` identifiers:", coms.toString(), false);
             event.getTextChannel().sendMessage(eb.build()).queue();
         }
@@ -153,7 +153,7 @@ public class comAdminHelp implements AdminCommand, GeneralCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName;
+        return Settings.prefix + commandName;
     }
 
     @Override

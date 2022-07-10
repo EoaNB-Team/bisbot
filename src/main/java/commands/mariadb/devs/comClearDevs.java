@@ -3,7 +3,7 @@ package commands.mariadb.devs;
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 public class comClearDevs implements AdminCommand, DBCommand {
@@ -26,7 +26,7 @@ public class comClearDevs implements AdminCommand, DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName;
+        return Settings.prefix + commandName;
     }
 
     @Override

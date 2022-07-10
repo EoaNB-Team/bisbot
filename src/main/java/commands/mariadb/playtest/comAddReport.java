@@ -36,20 +36,20 @@ public class comAddReport implements DBCommand {
         if (Args.length > 0) {
             String arg = Args[0].toLowerCase(Locale.ROOT);
             zoneRaw = arg;
-            if (Secrets.vicari.containsKey(arg)) {
+            if (Settings.vicari.containsKey(arg)) {
                 try {
-                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Secrets.vicari.get(arg))).getName();
+                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.vicari.get(arg))).getName();
                 } catch (NullPointerException e) {
                     ErrorHandler.CustomEmbedError("Could not get role name by id.", event);
-                    event.getChannel().sendMessage("<@" + Secrets.OWNER + ">").queue();
+                    event.getChannel().sendMessage("<@" + Settings.OWNER + ">").queue();
                     return;
                 }
             } else {
-                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
                 return;
             }
         } else {
-            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Settings.prefix + "zones` for a list of all zones.", event);
             return;
         }
         if (Args.length > 1) {
@@ -100,7 +100,7 @@ public class comAddReport implements DBCommand {
 
         boolean added = PlaytestReportmanager.AddPlaytestToDB(event, name, zone, local, userid, username, comment);
         if (added) {
-            TextChannel chan = (TextChannel)Objects.requireNonNull(event.getGuild().getGuildChannelById(Secrets.vicariChans.get(zoneRaw)));
+            TextChannel chan = (TextChannel)Objects.requireNonNull(event.getGuild().getGuildChannelById(Settings.vicariChans.get(zoneRaw)));
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(new Color(3, 193, 19));
@@ -122,7 +122,7 @@ public class comAddReport implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <zone> <local> <name> <local:[comment]>";
+        return Settings.prefix + commandName + " <zone> <local> <name> <local:[comment]>";
     }
 
     @Override

@@ -3,7 +3,7 @@ package commands.mariadb.devs;
 import commands.interfaces.GeneralCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class comProcuratores implements GeneralCommand {
     @Override
     public void action(String[] Args, MessageReceivedEvent event) {
         StringBuilder procs = new StringBuilder();
-        for (String key : Secrets.procuratores.keySet()) {
+        for (String key : Settings.procuratores.keySet()) {
             if (procs.toString().equals("")) {
                 procs = new StringBuilder("Procuratores: `" + key + "`");
             } else {
@@ -35,15 +35,15 @@ public class comProcuratores implements GeneralCommand {
     }
 
     public static void AddProcuratores() {
-        Secrets.procuratores.put("programmator", "319861468705325057");
-        Secrets.procuratores.put("historicus", "319861531879800832");
-        Secrets.procuratores.put("scriptor", "810765049840009237");
-        Secrets.procuratores.put("artifex", "321670679743430657");
+        Settings.procuratores.put("programmator", "319861468705325057");
+        Settings.procuratores.put("historicus", "319861531879800832");
+        Settings.procuratores.put("scriptor", "810765049840009237");
+        Settings.procuratores.put("artifex", "321670679743430657");
     }
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName;
+        return Settings.prefix + commandName;
     }
 
     @Override

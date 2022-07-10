@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.slf4j.LoggerFactory;
-import util.Secrets;
+import util.Settings;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,12 +28,12 @@ public class Main {
             = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] arguments) throws Exception {
-        String token = Secrets.getTokenM();
+        String token = Settings.getTokenM();
         builder = JDABuilder.createDefault(token);
         builder.setToken(token);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setAutoReconnect(true);
-        builder.setActivity(Activity.listening(Secrets.prefix + "help | v" + Secrets.VERSION));
+        builder.setActivity(Activity.listening(Settings.prefix + "help | v" + Settings.VERSION));
 
         builder.setChunkingFilter(ChunkingFilter.ALL);
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
@@ -45,7 +45,7 @@ public class Main {
         comVicari.AddVicari();
         comProcuratores.AddProcuratores();
 
-        Secrets.initProperties();
+        Settings.initSettings();
 
         builder.build();
     }

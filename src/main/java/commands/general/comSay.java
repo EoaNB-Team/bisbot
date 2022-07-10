@@ -6,7 +6,7 @@ import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class comSay implements AdminCommand, GeneralCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <channel> <message>";
+        return Settings.prefix + commandName + " <channel> <message>";
     }
 
     @Override

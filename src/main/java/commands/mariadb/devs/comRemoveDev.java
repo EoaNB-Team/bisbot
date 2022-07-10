@@ -4,7 +4,7 @@ import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 public class comRemoveDev implements AdminCommand, DBCommand {
@@ -39,7 +39,7 @@ public class comRemoveDev implements AdminCommand, DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user>";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override

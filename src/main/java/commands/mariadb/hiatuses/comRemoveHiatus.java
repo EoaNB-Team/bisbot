@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public class comRemoveHiatus implements DBCommand {
             }
 
             boolean removed = false;
-            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
+            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
                 if (event.getAuthor().getId().equals(userid)) {
                     removed = HiatusManager.RemoveHiatusFromDB(event, userid);
                 } else {
@@ -56,7 +56,7 @@ public class comRemoveHiatus implements DBCommand {
             if (removed) {
                 Member m = event.getGuild().retrieveMemberById(userid).complete();
                 List<Role> mr = m.getRoles();
-                Role r = event.getGuild().getRoleById(Secrets.HIATUS);
+                Role r = event.getGuild().getRoleById(Settings.HIATUS);
                 if (mr.contains(r)) {
                     event.getGuild().removeRoleFromMember(m.getIdLong(), r).queue();
                     ErrorHandler.CustomEmbed(":white_check_mark: " + "Removed " + r.getName() + " role.", new Color(3, 193, 19), event);
@@ -74,7 +74,7 @@ public class comRemoveHiatus implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user>";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override

@@ -4,7 +4,7 @@ import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -30,7 +30,7 @@ public class comAddUserToProject implements DBCommand {
                     userid = Args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
                     username = event.getJDA().retrieveUserById(userid).complete().getName();
 
-                    if (!userid.equals(event.getMessage().getAuthor().getId()) && !event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
+                    if (!userid.equals(event.getMessage().getAuthor().getId()) && !event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
                         ErrorHandler.CustomEmbedError("Invalid user. Only Centurions can submit project applications for other people.", event);
                         return;
                     }
@@ -52,8 +52,8 @@ public class comAddUserToProject implements DBCommand {
                 comment = Args[2];
             }
 
-            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
-                Secrets.projectReqList.put(userid, new ProjectAddRequest(event, projectid, userid, username, comment));
+            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
+                Settings.projectReqList.put(userid, new ProjectAddRequest(event, projectid, userid, username, comment));
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(new Color(3, 193, 19));
@@ -68,7 +68,7 @@ public class comAddUserToProject implements DBCommand {
                 if (!comment.equals("")) {
                     eb.addField("Comment", "\"" + comment + "\"", false);
                 }
-                event.getJDA().getTextChannelById(Secrets.projectEndchan).sendMessage(eb.build()).queue();
+                event.getJDA().getTextChannelById(Settings.projectEndchan).sendMessage(eb.build()).queue();
             } else {
                 PrjManager.AddUserToProject(event, projectid, userid, username, comment);
             }
@@ -84,7 +84,7 @@ public class comAddUserToProject implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user> <projectid> [comment]";
+        return Settings.prefix + commandName + " <user> <projectid> [comment]";
     }
 
     @Override

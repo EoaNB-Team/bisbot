@@ -32,20 +32,20 @@ public class comAddRequest implements DBCommand {
         if (Args.length > 0) {
             String arg = Args[0].toLowerCase(Locale.ROOT);
             zoneRaw = arg;
-            if (Secrets.vicari.containsKey(arg)) {
+            if (Settings.vicari.containsKey(arg)) {
                 try {
-                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Secrets.vicari.get(arg))).getName();
+                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.vicari.get(arg))).getName();
                 } catch (NullPointerException e) {
                     ErrorHandler.CustomEmbedError("Could not get role name by id.", event);
-                    event.getChannel().sendMessage("<@" + Secrets.OWNER + ">").queue();
+                    event.getChannel().sendMessage("<@" + Settings.OWNER + ">").queue();
                     return;
                 }
             } else {
-                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
                 return;
             }
         } else {
-            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Settings.prefix + "zones` for a list of all zones.", event);
             return;
         }
         if (Args.length > 1) {
@@ -66,7 +66,7 @@ public class comAddRequest implements DBCommand {
             eb.setColor(new Color(3, 193, 19));
             eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
             eb.setTitle("New Playtest Request Added for " + zone);
-            eb.setDescription("Submit a playtest for this request with `" + Secrets.prefix + "aplay <...>` when ready (for syntax see `" + Secrets.prefix + "help db`).");
+            eb.setDescription("Submit a playtest for this request with `" + Settings.prefix + "aplay <...>` when ready (for syntax see `" + Settings.prefix + "help db`).");
             eb.addField(name, "by " + username + "\n\n" + comment, false);
 
             chan.sendMessage(eb.build()).queue();
@@ -80,7 +80,7 @@ public class comAddRequest implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <zone> <name> [comment]";
+        return Settings.prefix + commandName + " <zone> <name> [comment]";
     }
 
     @Override

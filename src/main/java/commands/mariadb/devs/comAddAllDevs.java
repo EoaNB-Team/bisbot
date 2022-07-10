@@ -6,7 +6,7 @@ import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class comAddAllDevs implements AdminCommand, DBCommand {
         }
         DevManager.ClearDevsDB(event);
         Guild g = event.getGuild();
-        Role r = g.getRoleById(Secrets.CURIA);
+        Role r = g.getRoleById(Settings.CURIA);
         //List<Member> l = new ArrayList<>();
 
         if (ret) {
@@ -84,7 +84,7 @@ public class comAddAllDevs implements AdminCommand, DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " [hide]";
+        return Settings.prefix + commandName + " [hide]";
     }
 
     @Override

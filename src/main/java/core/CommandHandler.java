@@ -2,10 +2,9 @@ package core;
 
 import commands.CommandBucket;
 import commands.interfaces.Command;
-import util.Secrets;
+import util.Settings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public class CommandHandler {
             }
             commands.get(cmd.invoke).executed(canExecute, cmd.event);
         } else {
-            ErrorHandler.CustomEmbedError("Command *" + Secrets.prefix + cmd.invoke + "* does not exist.", cmd.event);
+            ErrorHandler.CustomEmbedError("Command *" + Settings.prefix + cmd.invoke + "* does not exist.", cmd.event);
         }
     }
 }

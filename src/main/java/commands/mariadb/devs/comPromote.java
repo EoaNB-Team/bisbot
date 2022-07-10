@@ -5,7 +5,7 @@ import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -36,10 +36,10 @@ public class comPromote implements DBCommand {
         Member m = event.getGuild().retrieveMemberById(userid).complete();
         List<Role> mr = m.getRoles();
         Role[] sr = new Role[4];
-        sr[0] = event.getGuild().getRoleById(Secrets.CIVITATE);
-        sr[1] = event.getGuild().getRoleById(Secrets.SENATE);
-        sr[2] = event.getGuild().getRoleById(Secrets.DISCIPLIO);
-        sr[3] = event.getGuild().getRoleById(Secrets.CURIA);
+        sr[0] = event.getGuild().getRoleById(Settings.CIVITATE);
+        sr[1] = event.getGuild().getRoleById(Settings.SENATE);
+        sr[2] = event.getGuild().getRoleById(Settings.DISCIPLIO);
+        sr[3] = event.getGuild().getRoleById(Settings.CURIA);
 
         //not a civitate
         if (!mr.contains(sr[0])) {
@@ -57,13 +57,13 @@ public class comPromote implements DBCommand {
         else if (!mr.contains(sr[2]) && !mr.contains(sr[3])) {
             String vicid = "";
             if (Args.length > 1) {
-                vicid = Secrets.vicari.get(Args[1].toLowerCase());
+                vicid = Settings.vicari.get(Args[1].toLowerCase());
                 if (vicid == null) {
-                    ErrorHandler.CustomEmbedError("Vicarius " + Args[1] + " does not exist. Refer to `" + Secrets.prefix + "vicari`.", event);
+                    ErrorHandler.CustomEmbedError("Vicarius " + Args[1] + " does not exist. Refer to `" + Settings.prefix + "vicari`.", event);
                     return;
                 }
             } else {
-                ErrorHandler.CustomEmbedError("Invalid vicarius. Refer to `" + Secrets.prefix + "vicari`.", event);
+                ErrorHandler.CustomEmbedError("Invalid vicarius. Refer to `" + Settings.prefix + "vicari`.", event);
                 return;
             }
             event.getGuild().addRoleToMember(m.getIdLong(), sr[2]).queue();
@@ -77,13 +77,13 @@ public class comPromote implements DBCommand {
         else if (mr.contains(sr[2]) && mr.contains(sr[3])) {
             String procid = "";
             if (Args.length > 1) {
-                procid = Secrets.procuratores.get(Args[1].toLowerCase());
+                procid = Settings.procuratores.get(Args[1].toLowerCase());
                 if (procid == null) {
-                    ErrorHandler.CustomEmbedError("Procuratores " + Args[1] + " does not exist. Refer to `" + Secrets.prefix + "procuratores`.", event);
+                    ErrorHandler.CustomEmbedError("Procuratores " + Args[1] + " does not exist. Refer to `" + Settings.prefix + "procuratores`.", event);
                     return;
                 }
             } else {
-                ErrorHandler.CustomEmbedError("Invalid procuratores. Refer to `" + Secrets.prefix + "procuratores`.", event);
+                ErrorHandler.CustomEmbedError("Invalid procuratores. Refer to `" + Settings.prefix + "procuratores`.", event);
                 return;
             }
             event.getGuild().removeRoleFromMember(m.getIdLong(), sr[2]).queue();
@@ -105,7 +105,7 @@ public class comPromote implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user>";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override

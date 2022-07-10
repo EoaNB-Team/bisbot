@@ -4,7 +4,7 @@ import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -43,7 +43,7 @@ public class comDeleteProject implements AdminCommand, DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <projectid>";
+        return Settings.prefix + commandName + " <projectid>";
     }
 
     @Override

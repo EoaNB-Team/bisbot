@@ -5,7 +5,7 @@ import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -36,15 +36,15 @@ public class comDemote implements DBCommand {
         Member m = event.getGuild().getMemberById(userid);
         List<Role> mr = m.getRoles();
         Role[] sr = new Role[4];
-        sr[0] = event.getGuild().getRoleById(Secrets.CIVITATE);
-        sr[1] = event.getGuild().getRoleById(Secrets.SENATE);
-        sr[2] = event.getGuild().getRoleById(Secrets.DISCIPLIO);
-        sr[3] = event.getGuild().getRoleById(Secrets.CURIA);
+        sr[0] = event.getGuild().getRoleById(Settings.CIVITATE);
+        sr[1] = event.getGuild().getRoleById(Settings.SENATE);
+        sr[2] = event.getGuild().getRoleById(Settings.DISCIPLIO);
+        sr[3] = event.getGuild().getRoleById(Settings.CURIA);
 
         //a dev
         if (mr.contains(sr[3]) && !mr.contains(sr[2])) {
             String ridf = "";
-            for (String rid : Secrets.procuratores.values()) {
+            for (String rid : Settings.procuratores.values()) {
                 if (mr.contains(event.getGuild().getRoleById(rid))) {
                     ridf = rid;
                 }
@@ -58,7 +58,7 @@ public class comDemote implements DBCommand {
         //a disciplio
         else if (mr.contains(sr[2])) {
             String ridf = "";
-            for (String rid : Secrets.vicari.values()) {
+            for (String rid : Settings.vicari.values()) {
                 if (mr.contains(event.getGuild().getRoleById(rid))) {
                     ridf = rid;
                 }
@@ -95,7 +95,7 @@ public class comDemote implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user>";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override

@@ -1,7 +1,7 @@
 package core;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CommandParser {
     public static CommandContainer parser(String raw, MessageReceivedEvent event) {
-        String beheaded = raw.replaceFirst(Secrets.prefix, ""); // prefix
+        String beheaded = raw.replaceFirst(Settings.prefix, ""); // prefix
         beheaded = beheaded.replaceAll(" +", " "); // multiple spaces
         beheaded = beheaded.replaceAll("[\\u201C\\u201D\\u0022\\u00AB\\u00BB\\u201E\\u201F]", "\""); // unicode quotes
 

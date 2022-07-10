@@ -4,7 +4,7 @@ import commands.interfaces.GeneralCommand;
 import core.CommandHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -117,7 +117,7 @@ public class comHelp implements GeneralCommand {
             eb.setColor(new Color(3, 193, 19));
             eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
             eb.setTitle("edbotJ Help:");
-            eb.setDescription("Use `" + Secrets.prefix + "help [type]` to further define the area of commands you want help with. (e.g. `" + Secrets.prefix + "help db`)");
+            eb.setDescription("Use `" + Settings.prefix + "help [type]` to further define the area of commands you want help with. (e.g. `" + Settings.prefix + "help db`)");
             eb.addField("Available `[type]` identifiers:", coms.toString(), false);
             event.getTextChannel().sendMessage(eb.build()).queue();
         }
@@ -130,7 +130,7 @@ public class comHelp implements GeneralCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " [type]";
+        return Settings.prefix + commandName + " [type]";
     }
 
     @Override

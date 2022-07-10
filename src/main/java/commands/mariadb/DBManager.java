@@ -3,7 +3,7 @@ package commands.mariadb;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.io.IOUtils;
-import util.Secrets;
+import util.Settings;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -30,7 +30,7 @@ public class DBManager {
                 }
             }
         } catch (Exception e) {
-            if (Secrets.debug) {
+            if (Settings.debug) {
                 ErrorHandler.CustomEmbedError(e.getMessage(), event);
             }
         }
@@ -47,7 +47,7 @@ public class DBManager {
                 return inputLine;
             //}
         } catch (Exception e) {
-            if (Secrets.debug) {
+            if (Settings.debug) {
                 ErrorHandler.CustomEmbedError(e.getMessage(), event);
             }
         }
@@ -55,9 +55,9 @@ public class DBManager {
     }
 
     private static BufferedReader BaseConnection(String target) throws Exception {
-        URL script = new URL(Secrets.getDBHost() + target);
+        URL script = new URL(Settings.getDBHost() + target);
         URLConnection sc = script.openConnection();
-        String userpass = Secrets.getDBAccess();
+        String userpass = Settings.getDBAccess();
         String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
         sc.setRequestProperty ("Authorization", basicAuth);
         return new BufferedReader(new InputStreamReader(sc.getInputStream()));

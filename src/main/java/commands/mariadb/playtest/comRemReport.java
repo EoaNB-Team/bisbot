@@ -4,7 +4,7 @@ import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.util.Locale;
@@ -25,20 +25,20 @@ public class comRemReport implements DBCommand {
 
         if (Args.length > 0) {
             String arg = Args[0].toLowerCase(Locale.ROOT);
-            if (Secrets.vicari.containsKey(arg)) {
+            if (Settings.vicari.containsKey(arg)) {
                 try {
-                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Secrets.vicari.get(arg))).getName();
+                    zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.vicari.get(arg))).getName();
                 } catch (NullPointerException e) {
                     ErrorHandler.CustomEmbedError("Could not get role name by id.", event);
-                    event.getChannel().sendMessage("<@" + Secrets.OWNER + ">").queue();
+                    event.getChannel().sendMessage("<@" + Settings.OWNER + ">").queue();
                     return;
                 }
             } else {
-                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+                ErrorHandler.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
                 return;
             }
         } else {
-            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Secrets.prefix + "zones` for a list of all zones.", event);
+            ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Settings.prefix + "zones` for a list of all zones.", event);
             return;
         }
         if (Args.length > 1) {
@@ -58,7 +58,7 @@ public class comRemReport implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <zone> <name>";
+        return Settings.prefix + commandName + " <zone> <name>";
     }
 
     @Override

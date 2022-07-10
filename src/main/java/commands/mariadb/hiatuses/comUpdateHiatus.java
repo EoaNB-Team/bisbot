@@ -4,7 +4,7 @@ import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -64,7 +64,7 @@ public class comUpdateHiatus implements DBCommand {
                 comment = Args[4];
             }
 
-            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
+            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
                 if (event.getAuthor().getId().equals(userid)) {
                     HiatusManager.UpdateHiatusToDB(event, userid, reason, end, start, comment);
                 } else {
@@ -89,7 +89,7 @@ public class comUpdateHiatus implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
+        return Settings.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
     }
 
     @Override

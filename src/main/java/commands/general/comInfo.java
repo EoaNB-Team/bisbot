@@ -3,7 +3,7 @@ package commands.general;
 import commands.interfaces.GeneralCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.General;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 public class comInfo implements GeneralCommand {
@@ -27,7 +27,7 @@ public class comInfo implements GeneralCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName;
+        return Settings.prefix + commandName;
     }
 
     @Override

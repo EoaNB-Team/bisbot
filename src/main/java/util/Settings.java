@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Properties;
 
-public class Secrets {
+public class Settings {
     public static final String CENTURION = "337176399532130307";
     public static final String SENIOR = "825956520374173704";
     public static final String JUNIOR = "755076726480044096";
@@ -19,7 +19,7 @@ public class Secrets {
     public static final String CIVITATE = "337164158489591809";
     public static final String HIATUS = "363726364605677571";
 
-    public static final String OWNER = "212693204519223296";
+    public static final String OWNER = "144439625123889152";
     public static final String ADMINCHAN = "532399694442266656";
 
     public static final String NODEGUILD = "318668421719916545"; //W:286194821394071552 E:318668421719916545
@@ -43,7 +43,7 @@ public class Secrets {
 
     private static Properties properties;
 
-    public static void initProperties() throws Exception {
+    public static void initSettings() throws Exception {
         Properties prop = new Properties();
         FileInputStream fis;
         if (SystemUtils.IS_OS_LINUX) {

@@ -5,7 +5,7 @@ import core.ErrorHandler;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -67,8 +67,8 @@ public class comAddHiatus implements DBCommand {
                 comment = Args[4];
             }
 
-            /*if (!event.getGuild().getMemberById(event.getAuthor().getId()).getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
-                Secrets.hiatusList.put(userid, new HiatusRequest(event, userid, username, reason, comment, start, end));
+            /*if (!event.getGuild().getMemberById(event.getAuthor().getId()).getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
+                Settings.hiatusList.put(userid, new HiatusRequest(event, userid, username, reason, comment, start, end));
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(new Color(3, 193, 19));
@@ -85,14 +85,14 @@ public class comAddHiatus implements DBCommand {
                 if (!comment.equals("")) {
                     eb.addField("Comment", "\"" + comment + "\"", false);
                 }
-                event.getJDA().getTextChannelById(Secrets.hiatusEndchan).sendMessage(eb.build()).queue();
+                event.getJDA().getTextChannelById(Settings.hiatusEndchan).sendMessage(eb.build()).queue();
             } else {*/
             boolean added = HiatusManager.AddHiatusToDB(event, userid, username, reason, end, start, comment);
             //}
             if (added) {
                 Member m = event.getGuild().retrieveMemberById(userid).complete();
                 List<Role> mr = m.getRoles();
-                Role r = event.getGuild().getRoleById(Secrets.HIATUS);
+                Role r = event.getGuild().getRoleById(Settings.HIATUS);
                 if (!mr.contains(r)) {
                     event.getGuild().addRoleToMember(m.getIdLong(), r).queue();
                     ErrorHandler.CustomEmbed(":white_check_mark: " + "Added " + r.getName() + " role.", new Color(3, 193, 19), event);
@@ -110,7 +110,7 @@ public class comAddHiatus implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
+        return Settings.prefix + commandName + " <user> <start date> <end date> <reason> [comment]";
     }
 
     @Override

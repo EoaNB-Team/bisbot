@@ -4,7 +4,7 @@ import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.Secrets;
+import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
@@ -28,7 +28,7 @@ public class comRemoveUserFromProject implements DBCommand {
                     userid = Args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
                     username = event.getJDA().retrieveUserById(userid).complete().getName();
 
-                    if (!userid.equals(event.getMessage().getAuthor().getId()) && !event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
+                    if (!userid.equals(event.getMessage().getAuthor().getId()) && !event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
                         ErrorHandler.CustomEmbedError("Invalid user. Only Centurions can submit project applications for other people.", event);
                         return;
                     }
@@ -41,8 +41,8 @@ public class comRemoveUserFromProject implements DBCommand {
                 return;
             }
 
-            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Secrets.CENTURION))) {
-                Secrets.projectRemList.put(userid, new ProjectRemoveRequest(event, userid, username));
+            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
+                Settings.projectRemList.put(userid, new ProjectRemoveRequest(event, userid, username));
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(new Color(3, 193, 19));
@@ -53,7 +53,7 @@ public class comRemoveUserFromProject implements DBCommand {
                 eb.setTitle("Project dismissal application by " + event.getAuthor().getName() + ":");
                 eb.setDescription("Profile: " + event.getAuthor().getAsMention());
                 eb.setFooter(userid, event.getJDA().getSelfUser().getAvatarUrl());
-                event.getJDA().getTextChannelById(Secrets.projectEndchan).sendMessage(eb.build()).queue();
+                event.getJDA().getTextChannelById(Settings.projectEndchan).sendMessage(eb.build()).queue();
             } else {
                 PrjManager.DeleteUserFromProject(event, userid);
             }
@@ -69,7 +69,7 @@ public class comRemoveUserFromProject implements DBCommand {
 
     @Override
     public String help() {
-        return Secrets.prefix + commandName + " <user>";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override
