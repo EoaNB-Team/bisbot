@@ -42,13 +42,13 @@ public class Main {
 			.enableIntents(GatewayIntent.GUILD_MEMBERS)
 			.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-		AddListeners();
-        AddCommands();
-
         comVicari.AddVicari();
         comProcuratores.AddProcuratores();
 
         jda = builder.build();
+
+		AddListeners();
+		AddCommands();
     }
 
     public static void AddListeners() {
