@@ -22,38 +22,37 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
-    public static JDABuilder builder;
+    private static JDA jda;
 
     public static final ch.qos.logback.classic.Logger LOGGER
             = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] arguments) throws Exception {
+		Settings.initSettings();
+
         String token = Settings.getTokenM();
-        builder = JDABuilder.createDefault(token);
-        builder.setToken(token);
-        builder.setStatus(OnlineStatus.ONLINE);
-        builder.setAutoReconnect(true);
-        builder.setActivity(Activity.listening(Settings.prefix + "help | v" + Settings.VERSION));
+        JDABuilder builder = JDABuilder.createDefault(token)
+			.setStatus(OnlineStatus.ONLINE)
+			.setAutoReconnect(true)
+			.setActivity(Activity.listening(Settings.prefix + "help | v" + Settings.VERSION))
 
-        builder.setChunkingFilter(ChunkingFilter.ALL);
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+			.setChunkingFilter(ChunkingFilter.ALL)
+			.enableIntents(GatewayIntent.GUILD_MEMBERS)
+			.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-        AddListeners();
+		AddListeners();
         AddCommands();
 
         comVicari.AddVicari();
         comProcuratores.AddProcuratores();
 
-        Settings.initSettings();
-
-        builder.build();
+        jda = builder.build();
     }
 
     public static void AddListeners() {
-        builder.addEventListeners(new ReadyListener());
-        builder.addEventListeners(new CommandListener());
-        builder.addEventListeners(new ReactionAddedListener());
+        jda.addEventListener(new ReadyListener());
+		jda.addEventListener(new CommandListener());
+		jda.addEventListener(new ReactionAddedListener());
     }
 
     public static void AddCommands() {
