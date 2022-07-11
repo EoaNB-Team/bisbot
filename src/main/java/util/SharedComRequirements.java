@@ -17,9 +17,8 @@ public class SharedComRequirements {
     }
 
     public static boolean checkId(MessageReceivedEvent event, String id, boolean idIsRole, String msg) {
-        if (checkSelf(event)) {
-            return false;
-        }
+		// Do not check if the author is a bot.
+        if (event.getAuthor().isBot()) return false;
 
         boolean userHasRole = event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete()
                 .getRoles().contains(event.getGuild().getRoleById(id));
@@ -37,9 +36,5 @@ public class SharedComRequirements {
         }
 
         return true;
-    }
-
-    public static boolean checkSelf(MessageReceivedEvent event) {
-        return event.getMessage().getAuthor().getId().equals(event.getJDA().getSelfUser().getId());
     }
 }

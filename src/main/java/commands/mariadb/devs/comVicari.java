@@ -4,7 +4,6 @@ import commands.interfaces.GeneralCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
-import util.SharedComRequirements;
 
 import java.awt.*;
 
@@ -13,7 +12,7 @@ public class comVicari implements GeneralCommand {
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
-        return !SharedComRequirements.checkSelf(event);
+        return !event.getAuthor().isBot();
     }
 
     @Override

@@ -4,14 +4,13 @@ import commands.interfaces.GeneralCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.General;
 import util.Settings;
-import util.SharedComRequirements;
 
 public class comInfo implements GeneralCommand {
     private final String commandName = "info";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
-        return !SharedComRequirements.checkSelf(event);
+        return !event.getAuthor().isBot();
     }
 
     @Override

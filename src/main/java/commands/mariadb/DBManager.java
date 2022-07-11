@@ -40,12 +40,10 @@ public class DBManager {
     public static String EstablishConnectionReturn(MessageReceivedEvent event, String target) {
         try {
             BufferedReader in = BaseConnection(target);
-
             String inputLine = IOUtils.toString(in);
-            //while ((inputLine = in.readLine()) != null) {
-                in.close();
-                return inputLine;
-            //}
+
+            in.close();
+            return inputLine;
         } catch (Exception e) {
             if (Settings.debug) {
                 ErrorHandler.CustomEmbedError(e.getMessage(), event);

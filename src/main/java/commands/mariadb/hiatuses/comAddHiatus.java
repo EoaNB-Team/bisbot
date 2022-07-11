@@ -67,34 +67,14 @@ public class comAddHiatus implements DBCommand {
                 comment = Args[4];
             }
 
-            /*if (!event.getGuild().getMemberById(event.getAuthor().getId()).getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
-                Settings.hiatusList.put(userid, new HiatusRequest(event, userid, username, reason, comment, start, end));
-
-                EmbedBuilder eb = new EmbedBuilder();
-                eb.setColor(new Color(3, 193, 19));
-                eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
-                eb.setDescription(":white_check_mark: Your hiatus request has been sent, " + event.getAuthor().getAsMention() +"! You will be DM'ed once your request has been reviewed by a Centurion, so do not leave the server.");
-                event.getChannel().sendMessage(eb.build()).queue();
-
-                eb.setTitle("Hiatus requested by " + event.getAuthor().getName() + ":");
-                eb.setDescription("Profile: " + event.getAuthor().getAsMention());
-                eb.setFooter(userid, event.getJDA().getSelfUser().getAvatarUrl());
-                eb.addField("Start", start, true);
-                eb.addField("End", end, true);
-                eb.addField("Reason", "\"" + reason + "\"", false);
-                if (!comment.equals("")) {
-                    eb.addField("Comment", "\"" + comment + "\"", false);
-                }
-                event.getJDA().getTextChannelById(Settings.hiatusEndchan).sendMessage(eb.build()).queue();
-            } else {*/
             boolean added = HiatusManager.AddHiatusToDB(event, userid, username, reason, end, start, comment);
-            //}
             if (added) {
                 Member m = event.getGuild().retrieveMemberById(userid).complete();
                 List<Role> mr = m.getRoles();
                 Role r = event.getGuild().getRoleById(Settings.HIATUS);
+				assert r != null;
                 if (!mr.contains(r)) {
-                    event.getGuild().addRoleToMember(m.getIdLong(), r).queue();
+					event.getGuild().addRoleToMember(m.getIdLong(), r).queue();
                     ErrorHandler.CustomEmbed(":white_check_mark: " + "Added " + r.getName() + " role.", new Color(3, 193, 19), event);
                 }
             }

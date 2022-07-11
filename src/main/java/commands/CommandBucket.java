@@ -12,8 +12,8 @@ import commands.mariadb.projects.comAddUserToProject;
 import commands.mariadb.projects.comDeleteProject;
 import commands.mariadb.projects.comRemoveUserFromProject;
 
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,9 +47,7 @@ public class CommandBucket {
             new comClearDevs(),
             new comAddProject(),
             new comDeleteProject()
-        ).collect(Collectors.toList()).forEach(c -> {
-            commands.put(c.getCommandName(), c);
-        });
+        ).collect(Collectors.toList()).forEach(c -> commands.put(c.getCommandName(), c));
     }
 
     public Map<String, Command> getCommands() {

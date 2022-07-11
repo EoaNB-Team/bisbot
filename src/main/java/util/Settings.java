@@ -59,10 +59,6 @@ public class Settings {
         return getProperty("tokenM");
     }
 
-    public static String getTokenB() {
-        return getProperty("tokenB");
-    }
-
     public static String getDBAccess() {
         return getProperty("dbAccess");
     }

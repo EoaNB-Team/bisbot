@@ -1,20 +1,23 @@
 package core;
 
-import commands.*;
+import commands.CommandBucket;
 import commands.interfaces.AdminCommand;
 import commands.interfaces.Command;
 import commands.interfaces.DBCommand;
 import commands.interfaces.GeneralCommand;
-import commands.mariadb.devs.*;
+import commands.mariadb.devs.comProcuratores;
+import commands.mariadb.devs.comVicari;
 import listeners.CommandListener;
 import listeners.ReactionAddedListener;
 import listeners.ReadyListener;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Settings;
 
@@ -24,8 +27,7 @@ import java.util.Objects;
 public class Main {
     private static JDA jda;
 
-    public static final ch.qos.logback.classic.Logger LOGGER
-            = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Main.class);
+    public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] arguments) throws Exception {
 		Settings.initSettings();
