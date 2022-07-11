@@ -20,20 +20,20 @@ public class SharedComRequirements {
 		// Do not check if the author is a bot.
         if (event.getAuthor().isBot()) return false;
 
-        boolean userHasRole = event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete()
-                .getRoles().contains(event.getGuild().getRoleById(id));
-        event.getAuthor().openPrivateChannel().queue((channel) -> channel.sendMessage("" + userHasRole).queue());
-        if (idIsRole && userHasRole) {
-            return true;
-        } else if (!userHasRole) {
-            ErrorHandler.CustomEmbedError(msg, event);
-            return false;
-        }
+		if (idIsRole) {
+			boolean userHasRole = event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete()
+				.getRoles().contains(event.getGuild().getRoleById(id));
 
-        if (event.getMessage().getAuthor().getId().equals(id)) {
-            ErrorHandler.CustomEmbedError(msg, event);
-            return false;
-        }
+			if (!userHasRole) {
+				ErrorHandler.CustomEmbedError(msg, event);
+				return false;
+			}
+		} else {
+			if (!event.getAuthor().getId().equals(id)) {
+				ErrorHandler.CustomEmbedError(msg, event);
+				return false;
+			}
+		}
 
         return true;
     }
