@@ -11,7 +11,7 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comDemote implements DBCommand {
+public class DemoteCommand implements DBCommand {
     private final String commandName = "demote";
 
     @Override
@@ -68,7 +68,7 @@ public class comDemote implements DBCommand {
             event.getGuild().removeRoleFromMember(m.getIdLong(), event.getGuild().getRoleById(ridf)).queue();
             //event.getGuild().getController().removeRolesFromMember(m, sr[2], sr[3], event.getGuild().getRoleById(ridf)).queue();
             ErrorHandler.CustomEmbed(":white_check_mark: "+ sr[2].getName() + ", " + sr[3].getName() + " and Vicarius removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
-            DevManager.DeleteDevFromDB(event, userid);
+            DevManager.deleteDevFromDB(event, userid);
         }
         //a senate
         else if (mr.contains(sr[1])) {

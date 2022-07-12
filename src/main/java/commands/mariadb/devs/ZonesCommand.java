@@ -7,7 +7,7 @@ import util.Settings;
 
 import java.awt.*;
 
-public class comVicari implements GeneralCommand {
+public class ZonesCommand implements GeneralCommand {
     private final String commandName = "zones";
 
     @Override
@@ -28,7 +28,7 @@ public class comVicari implements GeneralCommand {
         ErrorHandler.CustomEmbed(vics.toString(), new Color(3, 193, 19), event);
     }
 
-    public static void AddVicari() {
+    public static void initVicari() {
         Settings.vicari.put("a", "721305581805240410");
         Settings.vicari.put("b", "608041250951528507");
         Settings.vicari.put("c", "721305674541170818");

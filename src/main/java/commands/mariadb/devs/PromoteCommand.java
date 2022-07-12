@@ -11,7 +11,7 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comPromote implements DBCommand {
+public class PromoteCommand implements DBCommand {
     private final String commandName = "promote";
 
     @Override
@@ -71,7 +71,7 @@ public class comPromote implements DBCommand {
             event.getGuild().addRoleToMember(m.getIdLong(), event.getGuild().getRoleById(vicid)).queue();
             //event.getGuild().getController().addRolesToMember(m, sr[2], sr[3], event.getGuild().getRoleById(vicid)).queue();
             ErrorHandler.CustomEmbed(":white_check_mark: " + sr[2].getName() + ", " + sr[3].getName() + " and Vicarius added to " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
-            DevManager.AddDevToDB(event, userid, m.getUser().getName(), event.getGuild().getRoleById(vicid).getName(), false);
+            DevManager.addDevToDB(event, userid, m.getUser().getName(), event.getGuild().getRoleById(vicid).getName(), false);
         }
         //not a dev
         else if (mr.contains(sr[2]) && mr.contains(sr[3])) {

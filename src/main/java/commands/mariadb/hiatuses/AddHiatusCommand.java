@@ -2,15 +2,17 @@ package commands.mariadb.hiatuses;
 
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
-import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
 
 import java.awt.*;
+import java.util.List;
 
-public class comUpdateHiatus implements DBCommand {
-    private final String commandName = "hupdate";
+public class AddHiatusCommand implements DBCommand {
+    private final String commandName = "hiatus";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
@@ -21,14 +23,15 @@ public class comUpdateHiatus implements DBCommand {
     public void action(String[] Args, MessageReceivedEvent event) {
         try {
             String userid;
+            String username;
             String reason;
             String comment = "";
             String start;
             String end;
-
             try {
                 if (Args[0].contains("@")) {
                     userid = Args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
+                    username = event.getJDA().retrieveUserById(userid).complete().getName();
                 } else {
                     ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
                     return;
@@ -64,18 +67,16 @@ public class comUpdateHiatus implements DBCommand {
                 comment = Args[4];
             }
 
-            if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
-                if (event.getAuthor().getId().equals(userid)) {
-                    HiatusManager.UpdateHiatusToDB(event, userid, reason, end, start, comment);
-                } else {
-                    EmbedBuilder eb = new EmbedBuilder();
-                    eb.setColor(new Color(200, 0, 0));
-                    eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
-                    eb.setDescription("You can only update your own hiatus record.");
-                    event.getChannel().sendMessage(eb.build()).queue();
+            boolean added = HiatusManager.addHiatusToDB(event, userid, username, reason, end, start, comment);
+            if (added) {
+                Member m = event.getGuild().retrieveMemberById(userid).complete();
+                List<Role> mr = m.getRoles();
+                Role r = event.getGuild().getRoleById(Settings.HIATUS);
+				assert r != null;
+                if (!mr.contains(r)) {
+					event.getGuild().addRoleToMember(m.getIdLong(), r).queue();
+                    ErrorHandler.CustomEmbed(":white_check_mark: " + "Added " + r.getName() + " role.", new Color(3, 193, 19), event);
                 }
-            } else {
-                HiatusManager.UpdateHiatusToDB(event, userid, reason, end, start, comment);
             }
         } catch (Exception e) {
             ErrorHandler.CustomEmbedError("Wrong syntax.", event);
@@ -94,7 +95,7 @@ public class comUpdateHiatus implements DBCommand {
 
     @Override
     public String longhelp() {
-        return "Updates a hiatus record in the database. Updating other people's records is only possible for Centurions.";
+        return "Adds a hiatus record to the database. Dates have to be in `YYYY-MM-DD` format. `reason` and `comment` have to be inside \"s.";
     }
 
     @Override

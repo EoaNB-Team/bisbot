@@ -2,29 +2,37 @@ package commands.mariadb.playtest;
 
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
 
+import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
 
-public class comRemReport implements DBCommand {
-    private final String commandName = "rmvplay";
+public class AddRequestCommand implements DBCommand {
+    private final String commandName = "aplayreq";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
-        return SharedComRequirements.checkCenturion(event) && !event.isFromType(ChannelType.PRIVATE);
+        return SharedComRequirements.checkCuria(event) && !event.isFromType(ChannelType.PRIVATE);
     }
 
     @Override
     public void action(String[] Args, MessageReceivedEvent event) {
         String name;
         String zone;
+        String zoneRaw;
+        String userid = event.getAuthor().getId();
+        String username = event.getAuthor().getName();
+        String comment = "";
 
         if (Args.length > 0) {
             String arg = Args[0].toLowerCase(Locale.ROOT);
+            zoneRaw = arg;
             if (Settings.vicari.containsKey(arg)) {
                 try {
                     zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.vicari.get(arg))).getName();
@@ -47,8 +55,23 @@ public class comRemReport implements DBCommand {
             ErrorHandler.CustomEmbedError("Invalid playtest name.", event);
             return;
         }
+        if (Args.length > 2) {
+            comment = Args[2];
+        }
 
-        PlaytestReportmanager.RemovePlaytestFromDB(event, name, zone);
+        boolean added = PlaytestReportManager.addPlaytestReqToDB(event, name, zone, userid, username, comment);
+        if (added) {
+            TextChannel chan = (TextChannel)Objects.requireNonNull(event.getGuild().getGuildChannelById("810768564218232852")); // auditor
+
+            EmbedBuilder eb = new EmbedBuilder();
+            eb.setColor(new Color(3, 193, 19));
+            eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
+            eb.setTitle("New Playtest Request Added for " + zone);
+            eb.setDescription("Submit a playtest for this request with `" + Settings.prefix + "aplay <...>` when ready (for syntax see `" + Settings.prefix + "help db`).");
+            eb.addField(name, "by " + username + "\n\n" + comment, false);
+
+            chan.sendMessage(eb.build()).queue();
+        }
     }
 
     @Override
@@ -58,12 +81,12 @@ public class comRemReport implements DBCommand {
 
     @Override
     public String help() {
-        return Settings.prefix + commandName + " <zone> <name>";
+        return Settings.prefix + commandName + " <zone> <name> [comment]";
     }
 
     @Override
     public String longhelp() {
-        return "Removes a playtest report from the database.";
+        return "Adds a playtest request to the database.";
     }
 
     @Override

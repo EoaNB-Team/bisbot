@@ -1,10 +1,10 @@
 package listeners;
 
-import commands.mariadb.projects.PrjManager;
 import commands.mariadb.projects.ProjectAddRequest;
+import commands.mariadb.projects.ProjectManager;
 import commands.mariadb.projects.ProjectRemoveRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import util.Settings;
@@ -28,7 +28,7 @@ public class ReactionAddedListener extends ListenerAdapter { // WTF IS HAPPENING
                         EmbedBuilder eb = new EmbedBuilder();
                         eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
                         if (react.equals("✅")) {
-                            if (PrjManager.AddUserToProject(req.GetEvent(), req.GetProjectID(), req.GetUserID(), req.GetUsername(), req.GetComment())) {
+                            if (ProjectManager.addUserToProject(req.GetEvent(), req.GetProjectID(), req.GetUserID(), req.GetUsername(), req.GetComment())) {
                                 eb.setColor(new Color(3, 193, 19));
                                 eb.setDescription("Hey, " + req.GetEvent().getAuthor().getName() + "! Your project application has been reviewed and accepted by a Centurion.");
                             } else {
@@ -63,7 +63,7 @@ public class ReactionAddedListener extends ListenerAdapter { // WTF IS HAPPENING
                         EmbedBuilder eb = new EmbedBuilder();
                         eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
                         if (react.equals("✅")) {
-                            if (PrjManager.DeleteUserFromProject(reqRemove.GetEvent(), reqRemove.GetUserID())) {
+                            if (ProjectManager.deleteUserFromProject(reqRemove.GetEvent(), reqRemove.GetUserID())) {
                                 eb.setColor(new Color(3, 193, 19));
                                 eb.setDescription("Hey, " + reqRemove.GetEvent().getAuthor().getName() + "! Your project dismissal application has been reviewed and accepted by a Centurion.");
                             } else {

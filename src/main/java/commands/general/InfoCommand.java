@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.General;
 import util.Settings;
 
-public class comInfo implements GeneralCommand {
+public class InfoCommand implements GeneralCommand {
     private final String commandName = "info";
 
     @Override

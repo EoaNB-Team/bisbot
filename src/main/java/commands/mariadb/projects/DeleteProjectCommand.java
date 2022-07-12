@@ -7,8 +7,10 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
 
-public class comAddProject implements AdminCommand, DBCommand {
-    private final String commandName = "addproject";
+import java.awt.*;
+
+public class DeleteProjectCommand implements AdminCommand, DBCommand {
+    private final String commandName = "delproject";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
@@ -18,9 +20,6 @@ public class comAddProject implements AdminCommand, DBCommand {
     @Override
     public void action(String[] Args, MessageReceivedEvent event) {
         String projectid;
-        String projectname;
-        String projectdesc;
-        String projectowner;
 
         if (Args.length > 0) {
             projectid = Args[0];
@@ -29,20 +28,12 @@ public class comAddProject implements AdminCommand, DBCommand {
             return;
         }
         if (Args.length > 1) {
-            projectname = Args[1];
+            if (Args[1].equals("confirm")) {
+                ProjectManager.deleteProject(event, projectid);
+            }
         } else {
-            ErrorHandler.CustomEmbedError("Invalid project name.", event);
-            return;
+            ErrorHandler.CustomEmbed(":warning: Warning! You are about to delete a project! To confirm your decision, execute `ed!delproject <projectid> confirm`.", new Color(193, 114, 0), event);
         }
-        if (Args.length > 2) {
-            projectdesc = Args[2];
-        } else {
-            ErrorHandler.CustomEmbedError("Invalid project description.", event);
-            return;
-        }
-        projectowner = event.getMessage().getAuthor().getName();
-
-        PrjManager.AddProject(event, projectid, projectname, projectdesc, projectowner);
     }
 
     @Override
@@ -52,12 +43,12 @@ public class comAddProject implements AdminCommand, DBCommand {
 
     @Override
     public String help() {
-        return Settings.prefix + commandName + " <projectid> <projectname> <projectdesc>";
+        return Settings.prefix + commandName + " <projectid>";
     }
 
     @Override
     public String longhelp() {
-        return "Creates a new project. Note that `projectid` is to be specified without the `p_` prefix.";
+        return "Deletes a project. Note that `projectid` is to be specified without the `p_` prefix.";
     }
 
     @Override

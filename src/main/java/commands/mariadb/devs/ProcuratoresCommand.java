@@ -7,7 +7,7 @@ import util.Settings;
 
 import java.awt.*;
 
-public class comProcuratores implements GeneralCommand {
+public class ProcuratoresCommand implements GeneralCommand {
     private final String commandName = "jobs";
 
     @Override
@@ -33,7 +33,7 @@ public class comProcuratores implements GeneralCommand {
 
     }
 
-    public static void AddProcuratores() {
+    public static void initProcuratores() {
         Settings.procuratores.put("programmator", "319861468705325057");
         Settings.procuratores.put("historicus", "319861531879800832");
         Settings.procuratores.put("scriptor", "810765049840009237");

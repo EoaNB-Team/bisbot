@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-public class comReqReport implements DBCommand {
+public class ReqReportCommand implements DBCommand {
     private final String commandName = "rqplay";
 
     @Override
@@ -56,7 +56,7 @@ public class comReqReport implements DBCommand {
             return;
         }
 
-        String playtests = PlaytestReportmanager.GetPlaytestsFromDB(event, null);
+        String playtests = PlaytestReportManager.getPlaytestsFromDB(event, null);
         JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
         JsonArray desiredPlaytest = null;
 

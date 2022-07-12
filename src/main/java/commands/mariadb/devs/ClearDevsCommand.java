@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
 
-public class comClearDevs implements AdminCommand, DBCommand {
+public class ClearDevsCommand implements AdminCommand, DBCommand {
     private final String commandName = "devclear";
 
     @Override
@@ -16,7 +16,7 @@ public class comClearDevs implements AdminCommand, DBCommand {
 
     @Override
     public void action(String[] Args, MessageReceivedEvent event) {
-        DevManager.ClearDevsDB(event);
+        DevManager.clearDevsDB(event);
     }
 
     @Override

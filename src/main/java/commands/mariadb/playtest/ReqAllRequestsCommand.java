@@ -1,6 +1,8 @@
 package commands.mariadb.playtest;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -14,8 +16,8 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Objects;
 
-public class comReqAllReports implements DBCommand {
-    private final String commandName = "lplay";
+public class ReqAllRequestsCommand implements DBCommand {
+    private final String commandName = "lplayreq";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
@@ -41,17 +43,17 @@ public class comReqAllReports implements DBCommand {
             }
         }
 
-        String playtests = PlaytestReportmanager.GetPlaytestsFromDB(event, zone);
+        String playtests = PlaytestReportManager.getPlaytestReqsFromDB(event, zone);
         JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
 
         int totalFields = 1;
         LinkedList<LinkedList<String>> lPlaytests = new LinkedList<>();
         lPlaytests.add(new LinkedList<>());
-        lPlaytests.get(0).add("```md\n[ZONE][NAME] by PLAYTESTER: [LINK] COMMENT\n```\n");
+        lPlaytests.get(0).add("```md\n[ZONE][NAME] by REQUESTOR: COMMENT\n```\n");
 
         for (JsonElement j : json) {
             JsonArray inner = j.getAsJsonArray();
-            String curPlay = "```md\n[" + inner.get(1).getAsString() + "][" + inner.get(0).getAsString() + "] by " + inner.get(4).getAsString() + ": " + inner.get(5).getAsString() + "\n```";
+            String curPlay = "```md\n[" + inner.get(1).getAsString() + "][" + inner.get(0).getAsString() + "] by " + inner.get(3).getAsString() + ": " + inner.get(4).getAsString() + "\n```";
 
             if (String.join("", lPlaytests.get(totalFields - 1)).length() + curPlay.length() > 1024) {
                 totalFields++;
@@ -63,8 +65,8 @@ public class comReqAllReports implements DBCommand {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setColor(new Color(3, 193, 19));
         eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
-        eb.setTitle("Playtest Reports:");
-        eb.setDescription("Use `" + Settings.prefix + "lplay [zone]` to get a list of playtests only related to specified zone. (e.g. `" + Settings.prefix + "lplay c`)");
+        eb.setTitle("Playtest Requests:");
+        eb.setDescription("Use `" + Settings.prefix + "lplayreq [zone]` to get a list of playtest requests only related to specified zone. (e.g. `" + Settings.prefix + "lplayreq c`)");
         for (int i = 1; i <= lPlaytests.size(); i++) {
             eb.addField("Page " + i + ":", String.join("", lPlaytests.get(i - 1)), false);
         }
@@ -83,8 +85,8 @@ public class comReqAllReports implements DBCommand {
 
     @Override
     public String longhelp() {
-        return "Requests a list of all playtest reports from the database. `zone` can be" +
-                " specified to only display reports for said zone.";
+        return "Requests a list of all playtest requests from the database. `zone` can be" +
+                " specified to only display requests for said zone.";
     }
 
     @Override

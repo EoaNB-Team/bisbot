@@ -7,14 +7,16 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
-import util.*;
+import util.General;
+import util.Settings;
+import util.SharedComRequirements;
 
 import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-public class comAddReport implements DBCommand {
+public class AddReportCommand implements DBCommand {
     private final String commandName = "aplay";
 
     @Override
@@ -98,7 +100,7 @@ public class comAddReport implements DBCommand {
             }
         }
 
-        boolean added = PlaytestReportmanager.AddPlaytestToDB(event, name, zone, local, userid, username, comment);
+        boolean added = PlaytestReportManager.addPlaytestToDB(event, name, zone, local, userid, username, comment);
         if (added) {
             TextChannel chan = (TextChannel)Objects.requireNonNull(event.getGuild().getGuildChannelById(Settings.vicariChans.get(zoneRaw)));
 

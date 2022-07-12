@@ -9,8 +9,8 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comAddUserToProject implements DBCommand {
-    private final String commandName = "prjadd";
+public class RemoveUserFromProjectCommand implements DBCommand {
+    private final String commandName = "prjremove";
 
     @Override
     public boolean called(String[] Args, MessageReceivedEvent event) {
@@ -20,10 +20,8 @@ public class comAddUserToProject implements DBCommand {
     @Override
     public void action(String[] Args, MessageReceivedEvent event) {
         try {
-            String projectid;
             String userid;
             String username;
-            String comment = "";
 
             try {
                 if (Args[0].contains("@")) {
@@ -42,35 +40,22 @@ public class comAddUserToProject implements DBCommand {
                 ErrorHandler.CustomEmbedError("Invalid user.", event);
                 return;
             }
-            if (Args.length > 1) {
-                projectid = Args[1];
-            } else {
-                ErrorHandler.CustomEmbedError("Invalid project ID.", event);
-                return;
-            }
-            if (Args.length > 2) {
-                comment = Args[2];
-            }
 
             if (!event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
-                Settings.projectReqList.put(userid, new ProjectAddRequest(event, projectid, userid, username, comment));
+                Settings.projectRemList.put(userid, new ProjectRemoveRequest(event, userid, username));
 
                 EmbedBuilder eb = new EmbedBuilder();
                 eb.setColor(new Color(3, 193, 19));
                 eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
-                eb.setDescription(":white_check_mark: Your project application has been sent, " + event.getAuthor().getAsMention() +"! You will be DM'ed once your request has been reviewed by a Centurion, so do not leave the server.");
+                eb.setDescription(":white_check_mark: Your project dismissal application has been sent, " + event.getAuthor().getAsMention() +"! You will be DM'ed once your request has been reviewed by a Centurion, so do not leave the server.");
                 event.getChannel().sendMessage(eb.build()).queue();
 
-                eb.setTitle("Project application by " + event.getAuthor().getName() + ":");
+                eb.setTitle("Project dismissal application by " + event.getAuthor().getName() + ":");
                 eb.setDescription("Profile: " + event.getAuthor().getAsMention());
                 eb.setFooter(userid, event.getJDA().getSelfUser().getAvatarUrl());
-                eb.addField("Project ID", "\"" + projectid + "\"", false);
-                if (!comment.equals("")) {
-                    eb.addField("Comment", "\"" + comment + "\"", false);
-                }
                 event.getJDA().getTextChannelById(Settings.projectEndchan).sendMessage(eb.build()).queue();
             } else {
-                PrjManager.AddUserToProject(event, projectid, userid, username, comment);
+                ProjectManager.deleteUserFromProject(event, userid);
             }
         } catch (Exception e) {
             ErrorHandler.CustomEmbedError("Wrong syntax.", event);
@@ -84,12 +69,12 @@ public class comAddUserToProject implements DBCommand {
 
     @Override
     public String help() {
-        return Settings.prefix + commandName + " <user> <projectid> [comment]";
+        return Settings.prefix + commandName + " <user>";
     }
 
     @Override
     public String longhelp() {
-        return "Adds a user to a project. `comment` has to be inside \"s. Note that `projectid` is to be specified without the `p_` prefix.";
+        return "Removes a user from any projects.";
     }
 
     @Override

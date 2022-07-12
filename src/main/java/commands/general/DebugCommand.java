@@ -9,7 +9,7 @@ import util.SharedComRequirements;
 
 import java.awt.*;
 
-public class comDebug implements AdminCommand, GeneralCommand {
+public class DebugCommand implements AdminCommand, GeneralCommand {
     private final String commandName = "debug";
 
     @Override

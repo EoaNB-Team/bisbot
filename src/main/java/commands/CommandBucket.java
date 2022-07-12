@@ -3,14 +3,14 @@ package commands;
 import commands.general.*;
 import commands.interfaces.Command;
 import commands.mariadb.devs.*;
-import commands.mariadb.hiatuses.comAddHiatus;
-import commands.mariadb.hiatuses.comRemoveHiatus;
-import commands.mariadb.hiatuses.comUpdateHiatus;
+import commands.mariadb.hiatuses.AddHiatusCommand;
+import commands.mariadb.hiatuses.RemoveHiatusCommand;
+import commands.mariadb.hiatuses.UpdateHiatusCommand;
 import commands.mariadb.playtest.*;
-import commands.mariadb.projects.comAddProject;
-import commands.mariadb.projects.comAddUserToProject;
-import commands.mariadb.projects.comDeleteProject;
-import commands.mariadb.projects.comRemoveUserFromProject;
+import commands.mariadb.projects.AddProjectCommand;
+import commands.mariadb.projects.AddUserToProjectCommand;
+import commands.mariadb.projects.DeleteProjectCommand;
+import commands.mariadb.projects.RemoveUserFromProjectCommand;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,31 +22,31 @@ public class CommandBucket {
 
     public CommandBucket() {
         Stream.of(
-            new comHelp(),
-            new comInfo(),
-            new comAddHiatus(),
-            new comRemoveHiatus(),
-            new comUpdateHiatus(),
-            new comVicari(),
-            new comProcuratores(),
-            new comAddUserToProject(),
-            new comRemoveUserFromProject(),
-            new comReqReport(),
-            new comReqAllReports(),
-            new comRemReport(),
-            new comAddReport(),
-            new comReqAllRequests(),
-            new comRemRequest(),
-            new comAddRequest(),
-            new comAdminHelp(),
-            new comSay(),
-            new comDebug(),
-            new comAddDev(),
-            new comRemoveDev(),
-            new comAddAllDevs(),
-            new comClearDevs(),
-            new comAddProject(),
-            new comDeleteProject()
+            new HelpCommand(),
+            new InfoCommand(),
+            new AddHiatusCommand(),
+            new RemoveHiatusCommand(),
+            new UpdateHiatusCommand(),
+            new ZonesCommand(),
+            new ProcuratoresCommand(),
+            new AddUserToProjectCommand(),
+            new RemoveUserFromProjectCommand(),
+            new ReqReportCommand(),
+            new ReqAllReportsCommand(),
+            new RemReportCommand(),
+            new AddReportCommand(),
+            new ReqAllRequestsCommand(),
+            new RemRequestCommand(),
+            new AddRequestCommand(),
+            new AdminHelpCommand(),
+            new SayCommand(),
+            new DebugCommand(),
+            new AddDevCommand(),
+            new RemoveDevCommand(),
+            new AddAllDevsCommand(),
+            new ClearDevsCommand(),
+            new AddProjectCommand(),
+            new DeleteProjectCommand()
         ).collect(Collectors.toList()).forEach(c -> commands.put(c.getCommandName(), c));
     }
 

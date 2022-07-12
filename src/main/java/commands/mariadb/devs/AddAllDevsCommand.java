@@ -3,7 +3,9 @@ package commands.mariadb.devs;
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
 import util.Settings;
@@ -12,7 +14,7 @@ import util.SharedComRequirements;
 import java.awt.*;
 import java.util.List;
 
-public class comAddAllDevs implements AdminCommand, DBCommand {
+public class AddAllDevsCommand implements AdminCommand, DBCommand {
     private final String commandName = "devall";
 
     @Override
@@ -31,7 +33,7 @@ public class comAddAllDevs implements AdminCommand, DBCommand {
             ErrorHandler.CustomEmbedError("`hide` is not boolean. Use either `true`, `false`, `1` or `0`.", event);
             return;
         }
-        DevManager.ClearDevsDB(event);
+        DevManager.clearDevsDB(event);
         Guild g = event.getGuild();
         Role r = g.getRoleById(Settings.CURIA);
         //List<Member> l = new ArrayList<>();
@@ -74,7 +76,7 @@ public class comAddAllDevs implements AdminCommand, DBCommand {
                 break;
             }
         }
-        DevManager.AddDevToDB(event, m.getUser().getId(), m.getUser().getName(), vic, ret);
+        DevManager.addDevToDB(event, m.getUser().getId(), m.getUser().getName(), vic, ret);
     }
 
     @Override

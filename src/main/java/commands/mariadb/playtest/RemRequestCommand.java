@@ -10,7 +10,7 @@ import util.SharedComRequirements;
 import java.util.Locale;
 import java.util.Objects;
 
-public class comRemRequest implements DBCommand {
+public class RemRequestCommand implements DBCommand {
     private final String commandName = "rmvplayreq";
 
     @Override
@@ -48,7 +48,7 @@ public class comRemRequest implements DBCommand {
             return;
         }
 
-        PlaytestReportmanager.RemovePlaytestRequestFromDB(event, name, zone);
+        PlaytestReportManager.removePlaytestRequestFromDB(event, name, zone);
     }
 
     @Override

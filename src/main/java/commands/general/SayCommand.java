@@ -11,7 +11,7 @@ import util.SharedComRequirements;
 
 import java.util.Arrays;
 
-public class comSay implements AdminCommand, GeneralCommand {
+public class SayCommand implements AdminCommand, GeneralCommand {
     private final String commandName = "say";
 
     @Override
