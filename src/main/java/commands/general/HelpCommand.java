@@ -16,17 +16,17 @@ public class HelpCommand implements GeneralCommand {
     private final String commandName = "help";
 
     @Override
-    public boolean called(String[] Args, MessageReceivedEvent event) {
+    public boolean called(String[] args, MessageReceivedEvent event) {
         return !event.getAuthor().isBot();
     }
 
     @Override
-    public void action(String[] Args, MessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         StringBuilder coms = new StringBuilder();
         Map<String, List<String>> helpRepo = CommandHandler.commandHelpRepos.get("Dev");
 
-        if (Args.length > 0) {
-            if (Args[0].equals("general")) {
+        if (args.length > 0) {
+            if (args[0].equals("general")) {
                 /*for (int i = 0; i < CommandHandler.commandsHelpGeneral.size(); i++) {
                     coms.append(CommandHandler.commandsHelpGeneral.get(i));
                 }*/
@@ -67,7 +67,7 @@ public class HelpCommand implements GeneralCommand {
                 ef.setTitle("edbotJ:");
                 ef.setDescription(":inbox_tray: The general commands have been sent to you via DM!");
                 event.getTextChannel().sendMessage(ef.build()).queue();
-            } else if (Args[0].equals("db")) {
+            } else if (args[0].equals("db")) {
                 /*for (int i = 0; i < CommandHandler.commandsHelpDB.size(); i++) {
                     coms.append(CommandHandler.commandsHelpDB.get(i));
                 }*/

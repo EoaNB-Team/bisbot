@@ -30,12 +30,14 @@ public class CommandParser {
         } else {
             splitBeheaded = beheaded.split(" ");
         }
-        String invoke = splitBeheaded[0];
-        ArrayList<String> split = new ArrayList<>(Arrays.asList(splitBeheaded));
-        String[] Args = new String[split.size() - 1];
-        split.subList(1, split.size()).toArray(Args);
 
-        return new CommandContainer(raw, beheaded, splitBeheaded, invoke, Args, event);
+		// Split all arguments and put it into a list. Remove the first entry, the command itself.
+        ArrayList<String> split = new ArrayList<>(Arrays.asList(splitBeheaded));
+        String[] args = split.subList(1, split.size()).toArray(new String[0]);
+
+		String invoke = splitBeheaded[0]; // Get command.
+
+        return new CommandContainer(raw, beheaded, splitBeheaded, invoke, args, event);
     }
 
     public static class CommandContainer {
@@ -46,8 +48,8 @@ public class CommandParser {
         public final String[] args;
         public final MessageReceivedEvent event;
 
-        public CommandContainer(String rw, String beheaded, String[] splitBeheaded, String invoke, String[] args, MessageReceivedEvent e) {
-            this.raw = rw;
+        public CommandContainer(String raw, String beheaded, String[] splitBeheaded, String invoke, String[] args, MessageReceivedEvent e) {
+            this.raw = raw;
             this.beheaded = beheaded;
             this.splitBeheaded = splitBeheaded;
             this.invoke = invoke;

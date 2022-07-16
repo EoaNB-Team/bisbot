@@ -1,16 +1,12 @@
 package commands;
 
+import commands.database.devs.*;
+import commands.database.hiatuses.AddHiatusCommand;
+import commands.database.hiatuses.RemoveHiatusCommand;
+import commands.database.hiatuses.UpdateHiatusCommand;
+import commands.database.playtest.*;
 import commands.general.*;
 import commands.interfaces.Command;
-import commands.mariadb.devs.*;
-import commands.mariadb.hiatuses.AddHiatusCommand;
-import commands.mariadb.hiatuses.RemoveHiatusCommand;
-import commands.mariadb.hiatuses.UpdateHiatusCommand;
-import commands.mariadb.playtest.*;
-import commands.mariadb.projects.AddProjectCommand;
-import commands.mariadb.projects.AddUserToProjectCommand;
-import commands.mariadb.projects.DeleteProjectCommand;
-import commands.mariadb.projects.RemoveUserFromProjectCommand;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,8 +25,6 @@ public class CommandBucket {
             new UpdateHiatusCommand(),
             new ZonesCommand(),
             new ProcuratoresCommand(),
-            new AddUserToProjectCommand(),
-            new RemoveUserFromProjectCommand(),
             new ReqReportCommand(),
             new ReqAllReportsCommand(),
             new RemReportCommand(),
@@ -44,9 +38,7 @@ public class CommandBucket {
             new AddDevCommand(),
             new RemoveDevCommand(),
             new AddAllDevsCommand(),
-            new ClearDevsCommand(),
-            new AddProjectCommand(),
-            new DeleteProjectCommand()
+            new ClearDevsCommand()
         ).collect(Collectors.toList()).forEach(c -> commands.put(c.getCommandName(), c));
     }
 

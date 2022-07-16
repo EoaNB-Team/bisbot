@@ -18,17 +18,17 @@ public class AdminHelpCommand implements AdminCommand, GeneralCommand {
     private final String commandName = "ahelp";
 
     @Override
-    public boolean called(String[] Args, MessageReceivedEvent event) {
+    public boolean called(String[] args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
     }
 
     @Override
-    public void action(String[] Args, MessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         StringBuilder coms = new StringBuilder();
         Map<String, List<String>> helpRepo = CommandHandler.commandHelpRepos.get("Admin");
 
-        if (Args.length > 0) {
-            if (Args[0].equals("general")) {
+        if (args.length > 0) {
+            if (args[0].equals("general")) {
                 /*for (int i = 0; i < CommandHandler.commandsAdminHelpGeneral.size(); i++) {
                     coms.append(CommandHandler.commandsAdminHelpGeneral.get(i));
                 }
@@ -78,7 +78,7 @@ public class AdminHelpCommand implements AdminCommand, GeneralCommand {
                 ef.setTitle("edbotJ:");
                 ef.setDescription(":inbox_tray: The general admin commands have been sent to you via DM!");
                 event.getTextChannel().sendMessage(ef.build()).queue();
-            } else if (Args[0].equals("db")) {
+            } else if (args[0].equals("db")) {
                 /*for (int i = 0; i < CommandHandler.commandsAdminHelpDB.size(); i++) {
                     coms.append(CommandHandler.commandsAdminHelpDB.get(i));
                 }

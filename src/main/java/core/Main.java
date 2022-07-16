@@ -1,12 +1,12 @@
 package core;
 
 import commands.CommandBucket;
+import commands.database.devs.ProcuratoresCommand;
+import commands.database.devs.ZonesCommand;
 import commands.interfaces.AdminCommand;
 import commands.interfaces.Command;
 import commands.interfaces.DBCommand;
 import commands.interfaces.GeneralCommand;
-import commands.mariadb.devs.ProcuratoresCommand;
-import commands.mariadb.devs.ZonesCommand;
 import listeners.CommandListener;
 import listeners.ReactionAddedListener;
 import listeners.ReadyListener;
@@ -32,8 +32,10 @@ public class Main {
     public static void main(String[] arguments) throws Exception {
 		Settings.initSettings();
 
-		ZonesCommand.initVicari();
+		ZonesCommand.initZones();
 		ProcuratoresCommand.initProcuratores();
+
+		DatabaseManager.init();
 
         String token = Settings.getTokenM();
         JDABuilder builder = JDABuilder.createDefault(token)

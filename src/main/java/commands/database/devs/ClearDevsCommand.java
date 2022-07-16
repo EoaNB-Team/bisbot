@@ -1,22 +1,22 @@
-package commands.general;
+package commands.database.devs;
 
-import commands.interfaces.GeneralCommand;
+import commands.interfaces.AdminCommand;
+import commands.interfaces.DBCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import util.General;
 import util.Settings;
+import util.SharedComRequirements;
 
-public class InfoCommand implements GeneralCommand {
-    private final String commandName = "info";
+public class ClearDevsCommand implements AdminCommand, DBCommand {
+    private final String commandName = "devclear";
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
-        return !event.getAuthor().isBot();
+        return SharedComRequirements.checkCenturion(event);
     }
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        try { event.getTextChannel().sendMessage(General.getInfoEmbed(null, event, "edbotJ:").build()).queue(); }
-        catch (Exception ignored) { }
+        DevManager.clearDevsDB(event);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class InfoCommand implements GeneralCommand {
 
     @Override
     public String longhelp() {
-        return "Shows general info about the bot.";
+        return "Resets the dev database. Use with caution!";
     }
 
     @Override

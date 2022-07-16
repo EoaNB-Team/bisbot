@@ -15,21 +15,21 @@ public class SayCommand implements AdminCommand, GeneralCommand {
     private final String commandName = "say";
 
     @Override
-    public boolean called(String[] Args, MessageReceivedEvent event) {
+    public boolean called(String[] args, MessageReceivedEvent event) {
         return SharedComRequirements.checkCenturion(event);
     }
 
     @Override
-    public void action(String[] Args, MessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         try {
             TextChannel c;
-            if (Args[0].contains("#")) {
-                String chan = Args[0].replace("<", "").replace(">", "").replace("#", "");
+            if (args[0].contains("#")) {
+                String chan = args[0].replace("<", "").replace(">", "").replace("#", "");
                 c = event.getGuild().getTextChannelById(chan);
             } else {
-                c = event.getGuild().getTextChannelsByName(Args[0], true).get(0);
+                c = event.getGuild().getTextChannelsByName(args[0], true).get(0);
             }
-            c.sendMessage(StringUtils.join(Arrays.copyOfRange(Args, 1, Args.length), " ")).queue();
+            c.sendMessage(StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ")).queue();
         } catch (Exception e) {
             ErrorHandler.CustomEmbedError("Predefined channel not valid.", event);
         }

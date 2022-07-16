@@ -1,7 +1,7 @@
 package util;
 
-import commands.mariadb.projects.ProjectAddRequest;
-import commands.mariadb.projects.ProjectRemoveRequest;
+import commands.database.projects.ProjectAddRequest;
+import commands.database.projects.ProjectRemoveRequest;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.FileInputStream;
@@ -24,12 +24,12 @@ public class Settings {
 
     public static final String NODEGUILD = "318668421719916545"; //W:286194821394071552 E:318668421719916545
     public static final long STARTTIME = System.nanoTime();
-    public static final String VERSION = "1.2.3";
+    public static final String VERSION = "1.3.0";
 
     public static String prefix = "ed!";
     public static boolean debug = false;
-    public static HashMap<String, String> vicari = new HashMap<>();
-    public static HashMap<String, String> vicariChans = new HashMap<>();
+    public static HashMap<String, String> zones = new HashMap<>();
+    public static HashMap<String, String> zoneChannels = new HashMap<>();
     public static HashMap<String, String> procuratores = new HashMap<>();
 
     //Hiatus
@@ -59,13 +59,21 @@ public class Settings {
         return getProperty("tokenM");
     }
 
-    public static String getDBAccess() {
-        return getProperty("dbAccess");
+    public static String getDBPassword() {
+        return getProperty("dbPassword");
     }
 
     public static String getDBHost() {
         return getProperty("dbHost");
     }
+
+	public static String getDBName() {
+		return getProperty("dbName");
+	}
+
+	public static String getDBUser() {
+		return getProperty("dbUser");
+	}
 
     private static String getProperty(String name) {
         if (Objects.isNull(properties)) {

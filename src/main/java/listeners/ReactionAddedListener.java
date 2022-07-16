@@ -1,8 +1,8 @@
 package listeners;
 
-import commands.mariadb.projects.ProjectAddRequest;
-import commands.mariadb.projects.ProjectManager;
-import commands.mariadb.projects.ProjectRemoveRequest;
+import commands.database.projects.ProjectAddRequest;
+import commands.database.projects.ProjectManager;
+import commands.database.projects.ProjectRemoveRequest;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;

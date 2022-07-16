@@ -13,12 +13,12 @@ public class DebugCommand implements AdminCommand, GeneralCommand {
     private final String commandName = "debug";
 
     @Override
-    public boolean called(String[] Args, MessageReceivedEvent event) {
+    public boolean called(String[] args, MessageReceivedEvent event) {
         return SharedComRequirements.checkOwner(event);
     }
 
     @Override
-    public void action(String[] Args, MessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         Settings.debug = !Settings.debug;
 
         EmbedBuilder eb = new EmbedBuilder();
