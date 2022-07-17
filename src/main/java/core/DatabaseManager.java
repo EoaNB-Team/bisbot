@@ -20,6 +20,9 @@ public class DatabaseManager {
 
 	private static Connection connection;
 
+	/**
+	 * Sets up a connection to the database. The connection will be retained through the entire lifespan of the bot.
+	 */
 	public static void init() {
 		String url = "jdbc:postgresql://" + Settings.getDBHost() + "/" + Settings.getDBName();
 
@@ -51,11 +54,24 @@ public class DatabaseManager {
 		}
 	}
 
-	public static boolean publish(String sql, MessageReceivedEvent event) {
+	/**
+	 * Publish SQL statement. Use ? to fill in arguments, and the code will apply them automatically. Amount of ? should be the same as list of args.
+	 * @param sql The SQL statement to execute.
+	 * @param event An event so we can write the error as a message if debug is enabled.
+	 * @param args The arguments to insert into this statement.
+	 * @return Whether the execution was successful or not.
+	 */
+	public static boolean publish(String sql, MessageReceivedEvent event, String... args) {
 		try {
-			Statement st = connection.createStatement();
+			PreparedStatement st = connection.prepareStatement(sql);
 
-			st.execute(sql);
+			for (int i = 0; i < args.length; i++) {
+				st.setString(i + 1, args[i]);
+			}
+
+			st.addBatch();
+
+			st.execute();
 
 			return true;
 		} catch (Exception ex) {
@@ -68,18 +84,24 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public static Object[] retrieveColumn(String sql, MessageReceivedEvent event) {
+	public static String[] getStrings(String sql, MessageReceivedEvent event, String... args) {
 		try {
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			PreparedStatement st = connection.prepareStatement(sql);
 
-			ArrayList<Object> list = new ArrayList<>();
-
-			while (rs.next()) {
-				list.add(rs.getObject(0));
+			for (int i = 0; i < args.length; i++) {
+				st.setString(i + 1, args[i]);
 			}
 
-			return list.toArray(new Object[0]);
+			st.addBatch();
+
+			ResultSet rs = st.executeQuery();
+
+			ArrayList<String> list = new ArrayList<>();
+			while (rs.next()) {
+				list.add(rs.getString(0));
+			}
+
+			return list.toArray(new String[0]);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 

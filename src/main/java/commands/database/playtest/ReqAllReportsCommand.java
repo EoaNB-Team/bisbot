@@ -1,18 +1,12 @@
 package commands.database.playtest;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
 
-import java.awt.*;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -43,8 +37,9 @@ public class ReqAllReportsCommand implements DBCommand {
 			}
 		}
 
+		// TODO: Fix this.
 		String playtests = PlaytestReportManager.getPlaytestsFromDB(event, zone);
-		JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
+		/*JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
 
 		int totalFields = 1;
 		LinkedList<LinkedList<String>> lPlaytests = new LinkedList<>();
@@ -70,7 +65,7 @@ public class ReqAllReportsCommand implements DBCommand {
 		for (int i = 1; i <= lPlaytests.size(); i++) {
 			eb.addField("Page " + i + ":", String.join("", lPlaytests.get(i - 1)), false);
 		}
-		event.getTextChannel().sendMessage(eb.build()).queue();
+		event.getTextChannel().sendMessage(eb.build()).queue();*/
 	}
 
 	@Override

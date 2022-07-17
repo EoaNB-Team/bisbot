@@ -1,22 +1,14 @@
 package commands.database.playtest;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.components.Button;
-import util.General;
 import util.Settings;
 import util.SharedComRequirements;
 
-import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 public class ReqReportCommand implements DBCommand {
 	private final String commandName = "rqplay";
@@ -56,8 +48,9 @@ public class ReqReportCommand implements DBCommand {
 			return;
 		}
 
+		// TODO: Fix this.
 		String playtests = PlaytestReportManager.getPlaytestsFromDB(event, null);
-		JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
+		/*JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
 		JsonArray desiredPlaytest = null;
 
 		for (JsonElement j : json) {
@@ -88,7 +81,7 @@ public class ReqReportCommand implements DBCommand {
 				.queue();
 		} else {
 			ErrorHandler.CustomEmbedError("Could not find specified playtest.", event);
-		}
+		}*/
 	}
 
 	@Override

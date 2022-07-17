@@ -12,15 +12,12 @@ public class DevManager {
 	}
 
 	public static boolean addDevToDB(MessageReceivedEvent event, String userid, String username, String zone) {
-		String sql = "INSERT INTO " + TABLE_NAME + " VALUES ('"
-			+ userid + "','"
-			+ username + "','"
-			+ zone + "')";
-		return DatabaseManager.publish(sql, event);
+		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?)";
+		return DatabaseManager.publish(sql, event, userid, username, zone);
 	}
 
 	public static boolean deleteDevFromDB(MessageReceivedEvent event, String userid) {
-		String sql = "DELETE FROM " + TABLE_NAME + " WHERE userid='" + userid + "'";
-		return DatabaseManager.publish(sql, event);
+		String sql = "DELETE FROM " + TABLE_NAME + " WHERE userid=?";
+		return DatabaseManager.publish(sql, event, userid);
 	}
 }
