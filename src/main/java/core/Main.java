@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main {
-    private static JDA jda;
+	private static JDA jda;
 
-    public static final Logger logger = LoggerFactory.getLogger(Main.class);
+	public static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] arguments) throws Exception {
+	public static void main(String[] arguments) throws Exception {
 		Settings.initSettings();
 
 		ZonesCommand.initZones();
@@ -37,8 +37,8 @@ public class Main {
 
 		DatabaseManager.init();
 
-        String token = Settings.getTokenM();
-        JDABuilder builder = JDABuilder.createDefault(token)
+		String token = Settings.getTokenM();
+		JDABuilder builder = JDABuilder.createDefault(token)
 			.setStatus(OnlineStatus.ONLINE)
 			.setAutoReconnect(true)
 			.setActivity(Activity.listening(Settings.prefix + "help | v" + Settings.VERSION))
@@ -47,33 +47,33 @@ public class Main {
 			.enableIntents(GatewayIntent.GUILD_MEMBERS)
 			.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-        jda = builder.build();
+		jda = builder.build();
 
 		addListeners();
 		initCommands();
-    }
+	}
 
-    public static void addListeners() {
-        jda.addEventListener(new ReadyListener());
+	public static void addListeners() {
+		jda.addEventListener(new ReadyListener());
 		jda.addEventListener(new CommandListener());
 		jda.addEventListener(new ReactionAddedListener());
-    }
+	}
 
-    public static void initCommands() {
-        CommandBucket cb = new CommandBucket();
-        CommandHandler.commandBucket = cb;
+	public static void initCommands() {
+		CommandBucket cb = new CommandBucket();
+		CommandHandler.commandBucket = cb;
 
-        for (Command c : cb.getCommands().values()) {
-            boolean isAdmin = c instanceof AdminCommand;
-            boolean isGeneral = c instanceof GeneralCommand;
-            boolean isDB = c instanceof DBCommand;
+		for (Command c : cb.getCommands().values()) {
+			boolean isAdmin = c instanceof AdminCommand;
+			boolean isGeneral = c instanceof GeneralCommand;
+			boolean isDB = c instanceof DBCommand;
 
-            String permLevel = isAdmin ? "Admin" : "Dev";
-            String pageLevel = isDB ? "DB" : (isGeneral ? "General" : null);
-            if (Objects.isNull(pageLevel)) continue;
+			String permLevel = isAdmin ? "Admin" : "Dev";
+			String pageLevel = isDB ? "DB" : (isGeneral ? "General" : null);
+			if (Objects.isNull(pageLevel)) continue;
 
-            List<String> commandHelpRepo = CommandHandler.commandHelpRepos.get(permLevel).get(pageLevel);
-            commandHelpRepo.add("```" + c.help() + "```: " + c.longhelp() + "\n");
-        }
-    }
+			List<String> commandHelpRepo = CommandHandler.commandHelpRepos.get(permLevel).get(pageLevel);
+			commandHelpRepo.add("```" + c.help() + "```: " + c.longhelp() + "\n");
+		}
+	}
 }

@@ -7,35 +7,35 @@ import util.Settings;
 import util.SharedComRequirements;
 
 public class ClearDevsCommand implements AdminCommand, DBCommand {
-    private final String commandName = "devclear";
+	private final String commandName = "devclear";
 
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return SharedComRequirements.checkCenturion(event);
-    }
+	@Override
+	public boolean called(String[] args, MessageReceivedEvent event) {
+		return SharedComRequirements.checkCenturion(event);
+	}
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        DevManager.clearDevsDB(event);
-    }
+	@Override
+	public void action(String[] args, MessageReceivedEvent event) {
+		DevManager.clearDevsDB(event);
+	}
 
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
+	@Override
+	public void executed(boolean success, MessageReceivedEvent event) {
 
-    }
+	}
 
-    @Override
-    public String help() {
-        return Settings.prefix + commandName;
-    }
+	@Override
+	public String help() {
+		return Settings.prefix + commandName;
+	}
 
-    @Override
-    public String longhelp() {
-        return "Resets the dev database. Use with caution!";
-    }
+	@Override
+	public String longhelp() {
+		return "Resets the dev database. Use with caution!";
+	}
 
-    @Override
-    public String getCommandName() {
-        return commandName;
-    }
+	@Override
+	public String getCommandName() {
+		return commandName;
+	}
 }

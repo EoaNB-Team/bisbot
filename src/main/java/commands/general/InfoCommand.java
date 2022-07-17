@@ -6,36 +6,38 @@ import util.General;
 import util.Settings;
 
 public class InfoCommand implements GeneralCommand {
-    private final String commandName = "info";
+	private final String commandName = "info";
 
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return !event.getAuthor().isBot();
-    }
+	@Override
+	public boolean called(String[] args, MessageReceivedEvent event) {
+		return !event.getAuthor().isBot();
+	}
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        try { event.getTextChannel().sendMessage(General.getInfoEmbed(null, event, "edbotJ:").build()).queue(); }
-        catch (Exception ignored) { }
-    }
+	@Override
+	public void action(String[] args, MessageReceivedEvent event) {
+		try {
+			event.getTextChannel().sendMessage(General.getInfoEmbed(null, event, "edbotJ:").build()).queue();
+		} catch (Exception ignored) {
+		}
+	}
 
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
+	@Override
+	public void executed(boolean success, MessageReceivedEvent event) {
 
-    }
+	}
 
-    @Override
-    public String help() {
-        return Settings.prefix + commandName;
-    }
+	@Override
+	public String help() {
+		return Settings.prefix + commandName;
+	}
 
-    @Override
-    public String longhelp() {
-        return "Shows general info about the bot.";
-    }
+	@Override
+	public String longhelp() {
+		return "Shows general info about the bot.";
+	}
 
-    @Override
-    public String getCommandName() {
-        return commandName;
-    }
+	@Override
+	public String getCommandName() {
+		return commandName;
+	}
 }

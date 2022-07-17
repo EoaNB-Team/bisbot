@@ -3,15 +3,15 @@ package commands.interfaces;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public interface Command {
-    boolean called(String[] args, MessageReceivedEvent event);
+	boolean called(String[] args, MessageReceivedEvent event);
 
-    void action(String[] args, MessageReceivedEvent event);
+	void action(String[] args, MessageReceivedEvent event);
 
-    void executed(boolean success, MessageReceivedEvent event);
+	void executed(boolean success, MessageReceivedEvent event);
 
-    String help();
+	String help();
 
-    String longhelp();
+	String longhelp();
 
-    String getCommandName();
+	String getCommandName();
 }

@@ -91,53 +91,53 @@ public class DatabaseManager {
 	}
 
 	@Deprecated
-    public static boolean EstablishConnection(MessageReceivedEvent event, String target) {
-        try {
-            BufferedReader in = BaseConnection(target);
-            String inputLine;
+	public static boolean EstablishConnection(MessageReceivedEvent event, String target) {
+		try {
+			BufferedReader in = BaseConnection(target);
+			String inputLine;
 
-            while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains("successfully")) {
-                    ErrorHandler.CustomEmbed(inputLine, new Color(3, 193, 19), event);
-                    in.close();
-                    return true;
-                } else {
-                    ErrorHandler.CustomEmbedError(inputLine, event);
-                    in.close();
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-            if (Settings.debug) {
-                ErrorHandler.CustomEmbedError(e.getMessage(), event);
+			while ((inputLine = in.readLine()) != null) {
+				if (inputLine.contains("successfully")) {
+					ErrorHandler.CustomEmbed(inputLine, new Color(3, 193, 19), event);
+					in.close();
+					return true;
+				} else {
+					ErrorHandler.CustomEmbedError(inputLine, event);
+					in.close();
+					return false;
+				}
 			}
-        }
-        return false;
-    }
+		} catch (Exception e) {
+			if (Settings.debug) {
+				ErrorHandler.CustomEmbedError(e.getMessage(), event);
+			}
+		}
+		return false;
+	}
 
 	@Deprecated
-    public static String EstablishConnectionReturn(MessageReceivedEvent event, String target) {
-        try {
-            BufferedReader in = BaseConnection(target);
-            String inputLine = IOUtils.toString(in);
+	public static String EstablishConnectionReturn(MessageReceivedEvent event, String target) {
+		try {
+			BufferedReader in = BaseConnection(target);
+			String inputLine = IOUtils.toString(in);
 
-            in.close();
-            return inputLine;
-        } catch (Exception e) {
-            if (Settings.debug) {
-                ErrorHandler.CustomEmbedError(e.getMessage(), event);
-            }
-        }
-        return "";
-    }
+			in.close();
+			return inputLine;
+		} catch (Exception e) {
+			if (Settings.debug) {
+				ErrorHandler.CustomEmbedError(e.getMessage(), event);
+			}
+		}
+		return "";
+	}
 
 	@Deprecated
-    private static BufferedReader BaseConnection(String target) throws Exception {
-        URL script = new URL(Settings.getDBHost() + target);
-        URLConnection sc = script.openConnection();
-        String userpass = Settings.getDBPassword();
-        String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
-        sc.setRequestProperty ("Authorization", basicAuth);
-        return new BufferedReader(new InputStreamReader(sc.getInputStream()));
-    }
+	private static BufferedReader BaseConnection(String target) throws Exception {
+		URL script = new URL(Settings.getDBHost() + target);
+		URLConnection sc = script.openConnection();
+		String userpass = Settings.getDBPassword();
+		String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
+		sc.setRequestProperty("Authorization", basicAuth);
+		return new BufferedReader(new InputStreamReader(sc.getInputStream()));
+	}
 }

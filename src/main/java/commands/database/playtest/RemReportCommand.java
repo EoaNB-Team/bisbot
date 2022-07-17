@@ -8,17 +8,17 @@ import util.Settings;
 import util.SharedComRequirements;
 
 public class RemReportCommand implements DBCommand {
-    private final String commandName = "rmvplay";
+	private final String commandName = "rmvplay";
 
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return SharedComRequirements.checkCenturion(event) && !event.isFromType(ChannelType.PRIVATE);
-    }
+	@Override
+	public boolean called(String[] args, MessageReceivedEvent event) {
+		return SharedComRequirements.checkCenturion(event) && !event.isFromType(ChannelType.PRIVATE);
+	}
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        String name;
-        String zone = null;
+	@Override
+	public void action(String[] args, MessageReceivedEvent event) {
+		String name;
+		String zone = null;
 
         /*if (Args.length > 0) {
             String arg = Args[0].toLowerCase(Locale.ROOT);
@@ -52,26 +52,26 @@ public class RemReportCommand implements DBCommand {
 			return;
 		}
 
-        PlaytestReportManager.removePlaytestFromDB(event, name, zone);
-    }
+		PlaytestReportManager.removePlaytestFromDB(event, name, zone);
+	}
 
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
+	@Override
+	public void executed(boolean success, MessageReceivedEvent event) {
 
-    }
+	}
 
-    @Override
-    public String help() {
-        return Settings.prefix + commandName + " <zone> <name>";
-    }
+	@Override
+	public String help() {
+		return Settings.prefix + commandName + " <zone> <name>";
+	}
 
-    @Override
-    public String longhelp() {
-        return "Removes a playtest report from the database.";
-    }
+	@Override
+	public String longhelp() {
+		return "Removes a playtest report from the database.";
+	}
 
-    @Override
-    public String getCommandName() {
-        return commandName;
-    }
+	@Override
+	public String getCommandName() {
+		return commandName;
+	}
 }

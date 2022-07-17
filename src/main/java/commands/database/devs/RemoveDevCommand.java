@@ -8,47 +8,47 @@ import util.Settings;
 import util.SharedComRequirements;
 
 public class RemoveDevCommand implements AdminCommand, DBCommand {
-    private final String commandName = "devall";
+	private final String commandName = "devall";
 
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return SharedComRequirements.checkCenturion(event);
-    }
+	@Override
+	public boolean called(String[] args, MessageReceivedEvent event) {
+		return SharedComRequirements.checkCenturion(event);
+	}
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        String userid;
-        try {
-            if (args[0].contains("@")) {
-                userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
-            } else {
-                ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
-                return;
-            }
-        } catch (Exception e) {
-            ErrorHandler.CustomEmbedError("Invalid user.", event);
-            return;
-        }
-        DevManager.deleteDevFromDB(event, userid);
-    }
+	@Override
+	public void action(String[] args, MessageReceivedEvent event) {
+		String userid;
+		try {
+			if (args[0].contains("@")) {
+				userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
+			} else {
+				ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+				return;
+			}
+		} catch (Exception e) {
+			ErrorHandler.CustomEmbedError("Invalid user.", event);
+			return;
+		}
+		DevManager.deleteDevFromDB(event, userid);
+	}
 
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
+	@Override
+	public void executed(boolean success, MessageReceivedEvent event) {
 
-    }
+	}
 
-    @Override
-    public String help() {
-        return Settings.prefix + commandName + " <user>";
-    }
+	@Override
+	public String help() {
+		return Settings.prefix + commandName + " <user>";
+	}
 
-    @Override
-    public String longhelp() {
-        return "Manually removes a user from the dev database.";
-    }
+	@Override
+	public String longhelp() {
+		return "Manually removes a user from the dev database.";
+	}
 
-    @Override
-    public String getCommandName() {
-        return commandName;
-    }
+	@Override
+	public String getCommandName() {
+		return commandName;
+	}
 }
