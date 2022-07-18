@@ -30,7 +30,7 @@ public class AddReportCommand implements DBCommand {
 		String zone;
 		String zoneRaw;
 		boolean local;
-		String userid = event.getAuthor().getId();
+		Long userid = event.getAuthor().getIdLong();
 		String username = event.getAuthor().getName();
 		String comment;
 		String link;

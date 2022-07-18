@@ -61,12 +61,12 @@ public class DatabaseManager {
 	 * @param args The arguments to insert into this statement.
 	 * @return Whether the execution was successful or not.
 	 */
-	public static boolean publish(String sql, MessageReceivedEvent event, String... args) {
+	public static boolean publish(String sql, MessageReceivedEvent event, Object... args) {
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
 
 			for (int i = 0; i < args.length; i++) {
-				st.setString(i + 1, args[i]);
+				st.setObject(i + 1, args[i], getType(args[i]));
 			}
 
 			st.addBatch();
@@ -84,12 +84,12 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public static String[] getStrings(String sql, MessageReceivedEvent event, String... args) {
+	public static String[] getStrings(String sql, MessageReceivedEvent event, Object... args) {
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
 
 			for (int i = 0; i < args.length; i++) {
-				st.setString(i + 1, args[i]);
+				st.setObject(i + 1, args[i], getType(args[i]));
 			}
 
 			st.addBatch();
@@ -161,5 +161,17 @@ public class DatabaseManager {
 		String basicAuth = "Basic " + new String(Base64.getEncoder().encode(userpass.getBytes()));
 		sc.setRequestProperty("Authorization", basicAuth);
 		return new BufferedReader(new InputStreamReader(sc.getInputStream()));
+	}
+
+	private static SQLType getType(Object obj) {
+		if (obj instanceof Integer) {
+			return JDBCType.INTEGER;
+		} else if (obj instanceof String) {
+			return JDBCType.VARCHAR;
+		} else if (obj instanceof Long) {
+			return JDBCType.BIGINT;
+		}
+
+		return JDBCType.NULL;
 	}
 }

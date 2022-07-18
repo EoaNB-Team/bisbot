@@ -26,7 +26,7 @@ public class AddRequestCommand implements DBCommand {
 		String name;
 		String zone;
 		String zoneRaw;
-		String userid = event.getAuthor().getId();
+		Long userid = event.getAuthor().getIdLong();
 		String username = event.getAuthor().getName();
 		String comment = "";
 

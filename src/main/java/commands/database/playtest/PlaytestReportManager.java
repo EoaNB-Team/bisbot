@@ -9,12 +9,12 @@ public class PlaytestReportManager {
 	private static final String REPORTS_TABLE = "playtest_reports";
 	private static final String REQUESTS_TABLE = "playtest_requests";
 
-	public static boolean addPlaytestToDB(MessageReceivedEvent event, String name, String zone, boolean local, String userid, String username, String comment) {
+	public static boolean addPlaytestToDB(MessageReceivedEvent event, String name, String zone, boolean local, Long userid, String username, String comment) {
 		String sql = "INSERT INTO " + REPORTS_TABLE + " VALUES (?, ?, ?, ?, ?, ?)";
 		return DatabaseManager.publish(sql, event, name,  zone, (local ? "1" : "0"), userid, username, comment);
 	}
 
-	public static boolean addPlaytestReqToDB(MessageReceivedEvent event, String name, String zone, String userid, String username, String comment) {
+	public static boolean addPlaytestReqToDB(MessageReceivedEvent event, String name, String zone, Long userid, String username, String comment) {
 		String sql = "INSERT INTO " + REQUESTS_TABLE + " VALUES (?, ?, ?, ?, ?)";
 		return DatabaseManager.publish(sql, event, name, zone, userid, username, comment);
 	}
