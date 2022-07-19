@@ -58,20 +58,21 @@ public class DatabaseManager {
 	 * Publish SQL statement. Use ? to fill in arguments, and the code will apply them automatically. Amount of ? should be the same as list of args.
 	 * @param sql The SQL statement to execute.
 	 * @param event An event so we can write the error as a message if debug is enabled.
-	 * @param args The arguments to insert into this statement.
+	 * @param param The parameters to insert into this prepared statement.
 	 * @return Whether the execution was successful or not.
 	 */
-	public static boolean publish(String sql, MessageReceivedEvent event, Object... args) {
+	public static boolean publish(String sql, MessageReceivedEvent event, Object... param) {
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
 
-			for (int i = 0; i < args.length; i++) {
-				st.setObject(i + 1, args[i], getType(args[i]));
+			for (int i = 0; i < param.length; i++) {
+				handleParameter(st, i + 1, param[i]);
 			}
 
 			st.addBatch();
 
 			st.execute();
+			st.close();
 
 			return true;
 		} catch (Exception ex) {
@@ -84,24 +85,39 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public static String[] getStrings(String sql, MessageReceivedEvent event, Object... args) {
+	/**
+	 * Get a two-dimensional array of objects representing a table.
+	 * @param sql The SQL statement to execute.
+	 * @param event An event so we can write the error as a message if debug is enabled.
+	 * @param param The parameters to insert into this prepared statement.
+	 * @return A two-dimensional array of objects.
+	 */
+	public static Object[][] getTable(String sql, MessageReceivedEvent event, Object... param) {
+		// TODO: I'm not very proud of this.
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
 
-			for (int i = 0; i < args.length; i++) {
-				st.setObject(i + 1, args[i], getType(args[i]));
+			for (int i = 0; i < param.length; i++) {
+				handleParameter(st, i + 1, param[i]);
 			}
 
 			st.addBatch();
 
 			ResultSet rs = st.executeQuery();
 
-			ArrayList<String> list = new ArrayList<>();
+			// Does some magic and puts it in
+			ArrayList<Object[]> rows = new ArrayList<>();
 			while (rs.next()) {
-				list.add(rs.getString(0));
+				Object[] columns = new Object[rs.getMetaData().getColumnCount()];
+				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+					columns[i-1] = rs.getObject(i);
+				}
+
+				rows.add(columns);
 			}
 
-			return list.toArray(new String[0]);
+			st.close();
+			return rows.toArray(new Object[0][0]);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 
@@ -163,15 +179,23 @@ public class DatabaseManager {
 		return new BufferedReader(new InputStreamReader(sc.getInputStream()));
 	}
 
-	private static SQLType getType(Object obj) {
+	/**
+	 * Gets a statement and applies an object to a parameter with a specified index.
+	 * @param st The statement to add handle parameter for.
+	 * @param ix The index of the parameter.
+	 * @param obj The object to apply.
+	 * @throws SQLException If something goes wrong.
+	 */
+	private static void handleParameter(PreparedStatement st, int ix, Object obj) throws SQLException {
+		// TODO: There has to be a better way to do this. PSQL doesn't support setObject.
 		if (obj instanceof Integer) {
-			return JDBCType.INTEGER;
+			st.setInt(ix, (Integer) obj);
 		} else if (obj instanceof String) {
-			return JDBCType.VARCHAR;
+			st.setString(ix, (String) obj);
 		} else if (obj instanceof Long) {
-			return JDBCType.BIGINT;
+			st.setLong(ix, (Long) obj);
+		} else if (obj instanceof Short) {
+			st.setShort(ix, (Short) obj);
 		}
-
-		return JDBCType.NULL;
 	}
 }

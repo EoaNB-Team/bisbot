@@ -2,13 +2,18 @@ package commands.database.playtest;
 
 import commands.interfaces.DBCommand;
 import core.ErrorHandler;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.Button;
+import util.General;
 import util.Settings;
 import util.SharedComRequirements;
 
+import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 public class ReqReportCommand implements DBCommand {
 	private final String commandName = "rqplay";
@@ -48,16 +53,20 @@ public class ReqReportCommand implements DBCommand {
 			return;
 		}
 
-		// TODO: Fix this.
-		String playtests = PlaytestReportManager.getPlaytestsFromDB(event, null);
-		/*JsonArray json = new Gson().fromJson(playtests, JsonArray.class);
-		JsonArray desiredPlaytest = null;
+		// Get stored playtests from database.
+		Object[][] playtests = PlaytestReportManager.getPlaytestsFromDB(event, null);
+		Object[] desiredPlaytest = null;
 
-		for (JsonElement j : json) {
-			JsonArray inner = j.getAsJsonArray();
-			if (inner.get(0).getAsString().toLowerCase(Locale.ROOT).equals(name)
-				&& inner.get(1).getAsString().equals(zone)) {
-				desiredPlaytest = inner;
+		// Will happen if there aren't any registered playtests.
+		if (playtests == null) {
+			ErrorHandler.CustomEmbedError("No playtests are registered.", event);
+			return;
+		}
+
+		// Loop through the list we got from the database and see if the playtest exists.
+		for (Object[] obj : playtests) {
+			if (((String) obj[0]).equalsIgnoreCase(name) && obj[1].equals(zone)) {
+				desiredPlaytest = obj;
 				break;
 			}
 		}
@@ -68,10 +77,10 @@ public class ReqReportCommand implements DBCommand {
 			eb.setFooter("edbotJ", event.getJDA().getSelfUser().getAvatarUrl());
 			eb.setTitle("Playtest Request:");
 			eb.setDescription("Click the button below to get a link to the playtest.");
-			eb.addField(desiredPlaytest.get(0).getAsString(), "by " + desiredPlaytest.get(4).getAsString() + " for "
-				+ desiredPlaytest.get(1).getAsString() + "\n\n" + desiredPlaytest.get(5).getAsString(), false);
+			eb.addField((String) desiredPlaytest[0], "by " + desiredPlaytest[4] + " for "
+				+ desiredPlaytest[1] + "\n\n" + desiredPlaytest[5], false);
 
-			Matcher match = General.WEB_URL().matcher(desiredPlaytest.get(5).getAsString());
+			Matcher match = General.WEB_URL().matcher((String) desiredPlaytest[5]);
 			if (!match.find()) {
 				ErrorHandler.CustomEmbedError("Playtest comment has no link attached.", event);
 				return;
@@ -81,7 +90,7 @@ public class ReqReportCommand implements DBCommand {
 				.queue();
 		} else {
 			ErrorHandler.CustomEmbedError("Could not find specified playtest.", event);
-		}*/
+		}
 	}
 
 	@Override

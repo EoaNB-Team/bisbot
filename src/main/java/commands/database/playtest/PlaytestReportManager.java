@@ -3,8 +3,6 @@ package commands.database.playtest;
 import core.DatabaseManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.Arrays;
-
 public class PlaytestReportManager {
 	private static final String REPORTS_TABLE = "playtest_reports";
 	private static final String REQUESTS_TABLE = "playtest_requests";
@@ -29,16 +27,27 @@ public class PlaytestReportManager {
 		return DatabaseManager.publish(sql, event, name);
 	}
 
-	public static String getPlaytestsFromDB(MessageReceivedEvent event, String zone) {
-		String sql = "SELECT * FROM " + REPORTS_TABLE + zone != null ? " WHERE zone=?" : "";
+	public static Object[][] getPlaytestsFromDB(MessageReceivedEvent event, String zone) {
+		if (zone == null) {
+			String sql = "SELECT * FROM " + REPORTS_TABLE;
 
-		return Arrays.toString(DatabaseManager.getStrings(sql, event, zone));
+			return DatabaseManager.getTable(sql, event);
+		} else {
+			String sql = "SELECT * FROM " + REPORTS_TABLE +  " WHERE zone=?";
+
+			return DatabaseManager.getTable(sql, event, zone);
+		}
 	}
 
-	public static String getPlaytestReqsFromDB(MessageReceivedEvent event, String zone) {
-		String sql = "SELECT * FROM " + REQUESTS_TABLE
-			+ zone != null ? " WHERE zone=?" : "";
+	public static Object[][] getPlaytestReqsFromDB(MessageReceivedEvent event, String zone) {
+		if (zone == null) {
+			String sql = "SELECT * FROM " + REQUESTS_TABLE;
 
-		return Arrays.toString(DatabaseManager.getStrings(sql, event, zone));
+			return DatabaseManager.getTable(sql, event);
+		} else {
+			String sql = "SELECT * FROM " + REQUESTS_TABLE + " WHERE zone=?";
+
+			return DatabaseManager.getTable(sql, event, zone);
+		}
 	}
 }
