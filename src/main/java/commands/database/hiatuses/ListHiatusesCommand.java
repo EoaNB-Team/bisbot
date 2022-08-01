@@ -31,10 +31,10 @@ public class ListHiatusesCommand implements AdminCommand, DBCommand {
 		// First element is page, second element is hiatus.
 		LinkedList<LinkedList<String>> hiatusList = new LinkedList<>();
 		hiatusList.add(new LinkedList<>());
-		hiatusList.get(0).add("```md\n[UserID] [Username] [Reason] [End] [Start]\n```\n");
+		hiatusList.get(0).add("```md\n[UserID] [Username] [Reason] [Start] [End]\n```\n");
 		int totalFields = 1;
 		for (String[] hiatus : hiatuses) {
-			String hiatusText = "```md\n[" + hiatus[0] + "] [" + hiatus[1] + "] [" + hiatus[2] + "] [" + hiatus[3] + "] [" + hiatus[4] + "]\n```";
+			String hiatusText = "```md\n[" + hiatus[0] + "] [" + hiatus[1] + "] [" + hiatus[2] + "] [" + hiatus[4] + "] [" + hiatus[3] + "]\n```";
 
 			if (String.join("", hiatusList.get(totalFields - 1)).length() + hiatusText.length() > 1024) {
 				totalFields++;
