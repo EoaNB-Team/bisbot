@@ -21,14 +21,8 @@ public class HiatusManager {
 		return DatabaseManager.publish(sql, event, reason, end, start, Long.valueOf(userid));
 	}
 
-	public static String[][] getHiatuses(MessageReceivedEvent event) {
+	public static Object[][] getHiatuses(MessageReceivedEvent event) {
 		String sql = "SELECT * FROM " + TABLE_NAME;
-		Object[][] res = DatabaseManager.getTable(sql, event);
-
-		for (Object[] obj : res) {
-			obj[0] = Long.toString((long) obj[0]);
-		}
-
-		return (String[][]) res;
+		return DatabaseManager.getTable(sql, event);
 	}
 }

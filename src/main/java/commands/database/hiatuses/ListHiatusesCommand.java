@@ -20,7 +20,7 @@ public class ListHiatusesCommand implements AdminCommand, DBCommand {
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
-		String[][] hiatuses = HiatusManager.getHiatuses(event);
+		Object[][] hiatuses = HiatusManager.getHiatuses(event);
 
 		// Will happen if there aren't any registered hiatuses.
 		if (hiatuses.length == 0) {
@@ -33,7 +33,7 @@ public class ListHiatusesCommand implements AdminCommand, DBCommand {
 		hiatusList.add(new LinkedList<>());
 		hiatusList.get(0).add("```md\n[UserID] [Username] [Reason] [Start] [End]\n```\n");
 		int totalFields = 1;
-		for (String[] hiatus : hiatuses) {
+		for (Object[] hiatus : hiatuses) {
 			String hiatusText = "```md\n[" + hiatus[0] + "] [" + hiatus[1] + "] [" + hiatus[2] + "] [" + hiatus[4] + "] [" + hiatus[3] + "]\n```";
 
 			if (String.join("", hiatusList.get(totalFields - 1)).length() + hiatusText.length() > 1024) {
