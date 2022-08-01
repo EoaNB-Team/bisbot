@@ -1,7 +1,7 @@
 package commands.database.playtest;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -30,12 +30,12 @@ public class ReqAllReportsCommand implements DBCommand {
 				try {
 					zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.zones.get(arg))).getName();
 				} catch (NullPointerException e) {
-					ErrorHandler.CustomEmbedError("Could not get role name by id.", event);
+					EmbedGenerator.CustomEmbedError("Could not get role name by id.", event);
 					event.getChannel().sendMessage("<@" + Settings.OWNER + ">").queue();
 					return;
 				}
 			} else {
-				ErrorHandler.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
+				EmbedGenerator.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
 				return;
 			}
 		}
@@ -45,7 +45,7 @@ public class ReqAllReportsCommand implements DBCommand {
 
 		// Will happen if there aren't any registered playtests.
 		if (playtests == null) {
-			ErrorHandler.CustomEmbedError("No playtests are registered.", event);
+			EmbedGenerator.CustomEmbedError("No playtests are registered.", event);
 			return;
 		}
 

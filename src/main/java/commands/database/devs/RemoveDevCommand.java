@@ -2,7 +2,7 @@ package commands.database.devs;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
@@ -22,11 +22,11 @@ public class RemoveDevCommand implements AdminCommand, DBCommand {
 			if (args[0].contains("@")) {
 				userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+				EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 				return;
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Invalid user.", event);
+			EmbedGenerator.CustomEmbedError("Invalid user.", event);
 			return;
 		}
 		DevManager.deleteDevFromDB(event, userid);

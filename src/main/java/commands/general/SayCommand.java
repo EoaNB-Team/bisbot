@@ -2,7 +2,7 @@ package commands.general;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.GeneralCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ public class SayCommand implements AdminCommand, GeneralCommand {
 			}
 			c.sendMessage(StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ")).queue();
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Predefined channel not valid.", event);
+			EmbedGenerator.CustomEmbedError("Predefined channel not valid.", event);
 		}
 	}
 

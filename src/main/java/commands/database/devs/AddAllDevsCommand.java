@@ -2,7 +2,7 @@ package commands.database.devs;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -30,7 +30,7 @@ public class AddAllDevsCommand implements AdminCommand, DBCommand {
 				ret = Boolean.parseBoolean(args[0]);
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("`hide` is not boolean. Use either `true`, `false`, `1` or `0`.", event);
+			EmbedGenerator.CustomEmbedError("`hide` is not boolean. Use either `true`, `false`, `1` or `0`.", event);
 			return;
 		}
 		DevManager.clearDevsDB(event);
@@ -64,7 +64,7 @@ public class AddAllDevsCommand implements AdminCommand, DBCommand {
             }
             Main.DevManager.AddDevToDB(event, m.getUser().getId(), m.getUser().getName(), vic, ret);
         }*/
-		ErrorHandler.CustomEmbed(":white_check_mark: Task completed.", new Color(3, 193, 19), event);
+		EmbedGenerator.CustomEmbed(":white_check_mark: Task completed.", new Color(3, 193, 19), event);
 	}
 
 	public void work(MessageReceivedEvent event, Member m) {

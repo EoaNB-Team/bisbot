@@ -5,6 +5,9 @@ import commands.database.hiatuses.AddHiatusCommand;
 import commands.database.hiatuses.RemoveHiatusCommand;
 import commands.database.hiatuses.UpdateHiatusCommand;
 import commands.database.playtest.*;
+import commands.database.vote.HoldVoteCommand;
+import commands.database.vote.ListVotesCommand;
+import commands.database.vote.VoteCommand;
 import commands.general.*;
 import commands.interfaces.Command;
 
@@ -38,7 +41,10 @@ public class CommandBucket {
 			new AddDevCommand(),
 			new RemoveDevCommand(),
 			new AddAllDevsCommand(),
-			new ClearDevsCommand()
+			new ClearDevsCommand(),
+			new ListVotesCommand(),
+			new HoldVoteCommand(),
+			new VoteCommand()
 		).collect(Collectors.toList()).forEach(c -> commands.put(c.getCommandName(), c));
 	}
 

@@ -1,7 +1,7 @@
 package commands.database.projects;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -32,21 +32,21 @@ public class AddUserToProjectCommand implements DBCommand {
 					username = event.getJDA().retrieveUserById(userid).complete().getName();
 
 					if (!userid.equals(event.getMessage().getAuthor().getId()) && !event.getGuild().retrieveMemberById(event.getAuthor().getId()).complete().getRoles().contains(event.getGuild().getRoleById(Settings.CENTURION))) {
-						ErrorHandler.CustomEmbedError("Invalid user. Only Centurions can submit project applications for other people.", event);
+						EmbedGenerator.CustomEmbedError("Invalid user. Only Centurions can submit project applications for other people.", event);
 						return;
 					}
 				} else {
-					ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+					EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 					return;
 				}
 			} catch (Exception e) {
-				ErrorHandler.CustomEmbedError("Invalid user.", event);
+				EmbedGenerator.CustomEmbedError("Invalid user.", event);
 				return;
 			}
 			if (args.length > 1) {
 				projectid = args[1];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid project ID.", event);
+				EmbedGenerator.CustomEmbedError("Invalid project ID.", event);
 				return;
 			}
 			if (args.length > 2) {
@@ -74,7 +74,7 @@ public class AddUserToProjectCommand implements DBCommand {
 				ProjectManager.addUserToProject(event, projectid, userid, username, comment);
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Wrong syntax.", event);
+			EmbedGenerator.CustomEmbedError("Wrong syntax.", event);
 		}
 	}
 

@@ -1,7 +1,7 @@
 package commands.database.devs;
 
 import commands.interfaces.GeneralCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 
@@ -25,7 +25,7 @@ public class ZonesCommand implements GeneralCommand {
 				vics.append(", `").append(key).append("`");
 			}
 		}
-		ErrorHandler.CustomEmbed(vics.toString(), new Color(3, 193, 19), event);
+		EmbedGenerator.CustomEmbed(vics.toString(), new Color(3, 193, 19), event);
 	}
 
 	public static void initZones() {

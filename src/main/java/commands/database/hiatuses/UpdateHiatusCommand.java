@@ -1,7 +1,7 @@
 package commands.database.hiatuses;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -29,33 +29,33 @@ public class UpdateHiatusCommand implements DBCommand {
 				if (args[0].contains("@")) {
 					userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 				} else {
-					ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+					EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 					return;
 				}
 			} catch (Exception e) {
-				ErrorHandler.CustomEmbedError("Invalid user.", event);
+				EmbedGenerator.CustomEmbedError("Invalid user.", event);
 				return;
 			}
 			if (args.length > 1 && args[1].matches("\\d{4}-\\d{2}-\\d{2}")) {
 				start = args[1];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid start date. Use `YYYY-MM-DD`.", event);
+				EmbedGenerator.CustomEmbedError("Invalid start date. Use `YYYY-MM-DD`.", event);
 				return;
 			}
 			if (args.length > 2 && args[2].matches("\\d{4}-\\d{2}-\\d{2}")) {
 				end = args[2];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid end date. Use `YYYY-MM-DD`.", event);
+				EmbedGenerator.CustomEmbedError("Invalid end date. Use `YYYY-MM-DD`.", event);
 				return;
 			}
 			if (start.equals(end)) {
-				ErrorHandler.CustomEmbedError("`start` and `end` cannot be the same.", event);
+				EmbedGenerator.CustomEmbedError("`start` and `end` cannot be the same.", event);
 				return;
 			}
 			if (args.length > 3) {
 				reason = args[3];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid reason.", event);
+				EmbedGenerator.CustomEmbedError("Invalid reason.", event);
 				return;
 			}
 
@@ -73,7 +73,7 @@ public class UpdateHiatusCommand implements DBCommand {
 				HiatusManager.updateHiatusToDB(event, userid, reason, end, start);
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Wrong syntax.", event);
+			EmbedGenerator.CustomEmbedError("Wrong syntax.", event);
 		}
 	}
 

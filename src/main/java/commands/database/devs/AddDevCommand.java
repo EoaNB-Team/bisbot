@@ -2,7 +2,7 @@ package commands.database.devs;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -28,11 +28,11 @@ public class AddDevCommand implements AdminCommand, DBCommand {
 				userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 				username = event.getJDA().retrieveUserById(userid).complete().getName();
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+				EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 				return;
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Invalid user.", event);
+			EmbedGenerator.CustomEmbedError("Invalid user.", event);
 			return;
 		}
 		List<Role> l = event.getGuild().retrieveMemberById(userid).complete().getRoles();

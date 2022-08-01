@@ -2,7 +2,7 @@ package commands.database.projects;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
@@ -26,19 +26,19 @@ public class AddProjectCommand implements AdminCommand, DBCommand {
 		if (args.length > 0) {
 			projectid = args[0];
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid project ID.", event);
+			EmbedGenerator.CustomEmbedError("Invalid project ID.", event);
 			return;
 		}
 		if (args.length > 1) {
 			projectname = args[1];
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid project name.", event);
+			EmbedGenerator.CustomEmbedError("Invalid project name.", event);
 			return;
 		}
 		if (args.length > 2) {
 			projectdesc = args[2];
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid project description.", event);
+			EmbedGenerator.CustomEmbedError("Invalid project description.", event);
 			return;
 		}
 		projectowner = event.getMessage().getAuthor().getName();

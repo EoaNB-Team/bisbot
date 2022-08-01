@@ -1,7 +1,7 @@
 package commands.database.hiatuses;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -29,11 +29,11 @@ public class RemoveHiatusCommand implements DBCommand {
 				if (args[0].contains("@") && args[0].contains("<")) {
 					userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 				} else {
-					ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+					EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 					return;
 				}
 			} catch (Exception e) {
-				ErrorHandler.CustomEmbedError("Invalid user.", event);
+				EmbedGenerator.CustomEmbedError("Invalid user.", event);
 				return;
 			}
 
@@ -58,11 +58,11 @@ public class RemoveHiatusCommand implements DBCommand {
 				Role r = event.getGuild().getRoleById(Settings.HIATUS);
 				if (mr.contains(r)) {
 					event.getGuild().removeRoleFromMember(m.getIdLong(), r).queue();
-					ErrorHandler.CustomEmbed(":white_check_mark: " + "Removed " + r.getName() + " role.", new Color(3, 193, 19), event);
+					EmbedGenerator.CustomEmbed(":white_check_mark: " + "Removed " + r.getName() + " role.", new Color(3, 193, 19), event);
 				}
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Wrong syntax.", event);
+			EmbedGenerator.CustomEmbedError("Wrong syntax.", event);
 		}
 	}
 

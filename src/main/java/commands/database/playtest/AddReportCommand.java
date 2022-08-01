@@ -1,7 +1,7 @@
 package commands.database.playtest;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -42,16 +42,16 @@ public class AddReportCommand implements DBCommand {
 				try {
 					zone = Objects.requireNonNull(event.getGuild().getRoleById(Settings.zones.get(arg))).getName();
 				} catch (NullPointerException e) {
-					ErrorHandler.CustomEmbedError("Could not get role name by id.", event);
+					EmbedGenerator.CustomEmbedError("Could not get role name by id.", event);
 					event.getChannel().sendMessage("<@" + Settings.OWNER + ">").queue();
 					return;
 				}
 			} else {
-				ErrorHandler.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
+				EmbedGenerator.CustomEmbedError("Zone name not found. See `" + Settings.prefix + "zones` for a list of all zones.", event);
 				return;
 			}
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid zone name. See `" + Settings.prefix + "zones` for a list of all zones.", event);
+			EmbedGenerator.CustomEmbedError("Invalid zone name. See `" + Settings.prefix + "zones` for a list of all zones.", event);
 			return;
 		}
 		if (args.length > 1) {
@@ -61,17 +61,17 @@ public class AddReportCommand implements DBCommand {
 			} else if (arg.equals("link") || arg.equals("0") || arg.equals("false")) {
 				local = false;
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid source. Are you trying to submit a file or a link? Use `file`, `link`, `true`, `false`, `1` or `0`\"", event);
+				EmbedGenerator.CustomEmbedError("Invalid source. Are you trying to submit a file or a link? Use `file`, `link`, `true`, `false`, `1` or `0`\"", event);
 				return;
 			}
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid source. Are you trying to submit a file or a link? Use `file`, `link`, `true`, `false`, `1` or `0`", event);
+			EmbedGenerator.CustomEmbedError("Invalid source. Are you trying to submit a file or a link? Use `file`, `link`, `true`, `false`, `1` or `0`", event);
 			return;
 		}
 		if (args.length > 2) {
 			name = args[2];
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid playtest name.", event);
+			EmbedGenerator.CustomEmbedError("Invalid playtest name.", event);
 			return;
 		}
 		if (local) {
@@ -80,7 +80,7 @@ public class AddReportCommand implements DBCommand {
 				link = event.getMessage().getJumpUrl();
 				comment = link + ((args.length > 3) ? " " + args[3] : "");
 			} else {
-				ErrorHandler.CustomEmbedError("Submission designated a file but no file was attached.", event);
+				EmbedGenerator.CustomEmbedError("Submission designated a file but no file was attached.", event);
 				return;
 			}
 		} else {
@@ -91,11 +91,11 @@ public class AddReportCommand implements DBCommand {
 					//comment = Args[3].replace(url,  "[Link](" + url + ")");
 					comment = args[3];
 				} else {
-					ErrorHandler.CustomEmbedError("Could not detect any link in the comment.", event);
+					EmbedGenerator.CustomEmbedError("Could not detect any link in the comment.", event);
 					return;
 				}
 			} else {
-				ErrorHandler.CustomEmbedError("Submission designated a link but no comment was attached.", event);
+				EmbedGenerator.CustomEmbedError("Submission designated a link but no comment was attached.", event);
 				return;
 			}
 		}

@@ -79,14 +79,119 @@ public class DatabaseManager {
 			logger.error(ex.getMessage());
 
 			if (Settings.debug) {
-				ErrorHandler.CustomEmbedError(ex.getMessage(), event);
+				EmbedGenerator.CustomEmbedError(ex.getMessage(), event);
 			}
 		}
 		return false;
 	}
 
 	/**
+	 * Publish SQL statement. Use ? to fill in arguments, and the code will apply them automatically. Amount of ? should be the same as list of args.
+	 * @param sql The SQL statement to execute.
+	 * @param param The parameters to insert into this prepared statement.
+	 * @return Whether the execution was successful or not.
+	 */
+	public static boolean publish(String sql, Object... param) {
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			for (int i = 0; i < param.length; i++) {
+				handleParameter(st, i + 1, param[i]);
+			}
+
+			st.addBatch();
+
+			st.execute();
+			st.close();
+
+			return true;
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return false;
+	}
+
+	/**
+	 * Check if sql statement returns any results. Useful for checking if table is emtpty or not.
+	 * @param sql The SQL statement to execute.
+	 * @param param The parameters to insert into the prepared statement.
+	 * @return Whether the query has any results.
+	 */
+	public static boolean hasResult(String sql, Object... param) {
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			for (int i = 0; i < param.length; i++) {
+				handleParameter(st, i + 1, param[i]);
+			}
+
+			st.addBatch();
+
+			return st.execute();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return false;
+	}
+
+	/**
+	 * Check if sql statement returns any results. Useful for checking if table is emtpty or not.
+	 * @param sql The SQL statement to execute.
+	 * @return Whether the query has any results.
+	 */
+	public static boolean hasResult(String sql) {
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			return st.execute();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return false;
+	}
+
+	/**
 	 * Get a two-dimensional array of objects representing a table.
+	 * The first array is row, and the second array is column.
+	 * @param sql The SQL statement to execute.
+	 * @param param The parameters to insert into this prepared statement.
+	 * @return A two-dimensional array of objects.
+	 */
+	public static Object[][] getTable(String sql, Object... param) {
+		// TODO: I'm not very proud of this.
+		try {
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			for (int i = 0; i < param.length; i++) {
+				handleParameter(st, i + 1, param[i]);
+			}
+
+			st.addBatch();
+
+			ResultSet rs = st.executeQuery();
+
+			// Does some magic and puts it in
+			ArrayList<Object[]> rows = new ArrayList<>();
+			while (rs.next()) {
+				Object[] columns = new Object[rs.getMetaData().getColumnCount()];
+				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+					columns[i-1] = rs.getObject(i);
+				}
+
+				rows.add(columns);
+			}
+
+			st.close();
+			return rows.toArray(new Object[0][0]);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+		return new Object[0][0];
+	}
+
+	/**
+	 * Get a two-dimensional array of objects representing a table.
+	 * The first array is row, and the second array is column.
 	 * @param sql The SQL statement to execute.
 	 * @param event An event so we can write the error as a message if debug is enabled.
 	 * @param param The parameters to insert into this prepared statement.
@@ -122,10 +227,10 @@ public class DatabaseManager {
 			logger.error(ex.getMessage());
 
 			if (Settings.debug) {
-				ErrorHandler.CustomEmbedError(ex.getMessage(), event);
+				EmbedGenerator.CustomEmbedError(ex.getMessage(), event);
 			}
 		}
-		return null;
+		return new Object[0][0];
 	}
 
 	@Deprecated
@@ -136,18 +241,18 @@ public class DatabaseManager {
 
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.contains("successfully")) {
-					ErrorHandler.CustomEmbed(inputLine, new Color(3, 193, 19), event);
+					EmbedGenerator.CustomEmbed(inputLine, new Color(3, 193, 19), event);
 					in.close();
 					return true;
 				} else {
-					ErrorHandler.CustomEmbedError(inputLine, event);
+					EmbedGenerator.CustomEmbedError(inputLine, event);
 					in.close();
 					return false;
 				}
 			}
 		} catch (Exception e) {
 			if (Settings.debug) {
-				ErrorHandler.CustomEmbedError(e.getMessage(), event);
+				EmbedGenerator.CustomEmbedError(e.getMessage(), event);
 			}
 		}
 		return false;
@@ -163,7 +268,7 @@ public class DatabaseManager {
 			return inputLine;
 		} catch (Exception e) {
 			if (Settings.debug) {
-				ErrorHandler.CustomEmbedError(e.getMessage(), event);
+				EmbedGenerator.CustomEmbedError(e.getMessage(), event);
 			}
 		}
 		return "";

@@ -1,7 +1,7 @@
 package commands.database.devs;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -26,11 +26,11 @@ public class DemoteCommand implements DBCommand {
 			if (args[0].contains("@")) {
 				userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+				EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 				return;
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Invalid user.", event);
+			EmbedGenerator.CustomEmbedError("Invalid user.", event);
 			return;
 		}
 		Member m = event.getGuild().getMemberById(userid);
@@ -53,7 +53,7 @@ public class DemoteCommand implements DBCommand {
 			event.getGuild().removeRoleFromMember(m.getIdLong(), event.getGuild().getRoleById(ridf)).queue();
 			//event.getGuild().getController().removeSingleRoleFromMember(m, event.getGuild().getRoleById(ridf)).queue();
 			//event.getGuild().getController().addSingleRoleToMember(m, sr[2]).queue();
-			ErrorHandler.CustomEmbed(":white_check_mark: Procuratores removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
+			EmbedGenerator.CustomEmbed(":white_check_mark: Procuratores removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
 		}
 		//a disciplio
 		else if (mr.contains(sr[2])) {
@@ -67,24 +67,24 @@ public class DemoteCommand implements DBCommand {
 			event.getGuild().removeRoleFromMember(m.getIdLong(), sr[3]).queue();
 			event.getGuild().removeRoleFromMember(m.getIdLong(), event.getGuild().getRoleById(ridf)).queue();
 			//event.getGuild().getController().removeRolesFromMember(m, sr[2], sr[3], event.getGuild().getRoleById(ridf)).queue();
-			ErrorHandler.CustomEmbed(":white_check_mark: " + sr[2].getName() + ", " + sr[3].getName() + " and Vicarius removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
+			EmbedGenerator.CustomEmbed(":white_check_mark: " + sr[2].getName() + ", " + sr[3].getName() + " and Vicarius removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
 			DevManager.deleteDevFromDB(event, userid);
 		}
 		//a senate
 		else if (mr.contains(sr[1])) {
 			event.getGuild().removeRoleFromMember(m.getIdLong(), sr[1]).queue();
 			//event.getGuild().getController().removeRolesFromMember(m, sr[1]).queue();
-			ErrorHandler.CustomEmbed(":white_check_mark: " + sr[1].getName() + " removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
+			EmbedGenerator.CustomEmbed(":white_check_mark: " + sr[1].getName() + " removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
 		}
 		//a civitate
 		else if (mr.contains(sr[0])) {
 			event.getGuild().removeRoleFromMember(m.getIdLong(), sr[0]).queue();
 			//event.getGuild().getController().removeRolesFromMember(m, sr[0]).queue();
-			ErrorHandler.CustomEmbed(":white_check_mark: " + sr[0].getName() + " removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
+			EmbedGenerator.CustomEmbed(":white_check_mark: " + sr[0].getName() + " removed from " + m.getEffectiveName() + ".", new Color(3, 193, 19), event);
 		}
 		//reached end
 		else {
-			ErrorHandler.CustomEmbedError("Cannot demote " + m.getEffectiveName() + " any further.", event);
+			EmbedGenerator.CustomEmbedError("Cannot demote " + m.getEffectiveName() + " any further.", event);
 		}
 	}
 

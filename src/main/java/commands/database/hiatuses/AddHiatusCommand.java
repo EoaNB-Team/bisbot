@@ -1,7 +1,7 @@
 package commands.database.hiatuses;
 
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -33,18 +33,18 @@ public class AddHiatusCommand implements DBCommand {
 					userid = args[0].replace("<", "").replace(">", "").replace("@", "").replace("!", "");
 					username = event.getJDA().retrieveUserById(userid).complete().getName();
 				} else {
-					ErrorHandler.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
+					EmbedGenerator.CustomEmbedError("Invalid user. Use `@Username` (ping).", event);
 					return;
 				}
 			} catch (Exception e) {
-				ErrorHandler.CustomEmbedError("Invalid user.", event);
+				EmbedGenerator.CustomEmbedError("Invalid user.", event);
 				return;
 			}
 
 			if (args.length > 1 && args[1].matches("\\d{4}-\\d{2}-\\d{2}")) {
 				start = args[1];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid start date. Use `YYYY-MM-DD`.", event);
+				EmbedGenerator.CustomEmbedError("Invalid start date. Use `YYYY-MM-DD`.", event);
 				return;
 			}
 
@@ -52,18 +52,18 @@ public class AddHiatusCommand implements DBCommand {
 				end = args[2];
 
 				if (end.equals(start)) {
-					ErrorHandler.CustomEmbedError("`start` and `end` cannot be the same.", event);
+					EmbedGenerator.CustomEmbedError("`start` and `end` cannot be the same.", event);
 					return;
 				}
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid end date. Use `YYYY-MM-DD`.", event);
+				EmbedGenerator.CustomEmbedError("Invalid end date. Use `YYYY-MM-DD`.", event);
 				return;
 			}
 
 			if (args.length > 3) {
 				reason = args[3];
 			} else {
-				ErrorHandler.CustomEmbedError("Invalid reason.", event);
+				EmbedGenerator.CustomEmbedError("Invalid reason.", event);
 				return;
 			}
 
@@ -75,11 +75,11 @@ public class AddHiatusCommand implements DBCommand {
 				assert r != null;
 				if (!mr.contains(r)) {
 					event.getGuild().addRoleToMember(m.getIdLong(), r).queue();
-					ErrorHandler.CustomEmbed(":white_check_mark: " + "Added " + r.getName() + " role.", new Color(3, 193, 19), event);
+					EmbedGenerator.SuccessEmbed(":white_check_mark: " + "Added " + r.getName() + " role.", event);
 				}
 			}
 		} catch (Exception e) {
-			ErrorHandler.CustomEmbedError("Wrong syntax.", event);
+			EmbedGenerator.CustomEmbedError("Wrong syntax.", event);
 		}
 	}
 

@@ -49,7 +49,7 @@ public class CommandHandler {
 			}
 			commands.get(cmd.invoke).executed(canExecute, cmd.event);
 		} else {
-			ErrorHandler.CustomEmbedError("Command *" + Settings.prefix + cmd.invoke + "* does not exist.", cmd.event);
+			EmbedGenerator.CustomEmbedError("Command *" + Settings.prefix + cmd.invoke + "* does not exist.", cmd.event);
 		}
 	}
 }

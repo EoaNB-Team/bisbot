@@ -2,7 +2,7 @@ package commands.database.projects;
 
 import commands.interfaces.AdminCommand;
 import commands.interfaces.DBCommand;
-import core.ErrorHandler;
+import core.EmbedGenerator;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
 import util.SharedComRequirements;
@@ -25,7 +25,7 @@ public class DeleteProjectCommand implements AdminCommand, DBCommand {
 		if (args.length > 0) {
 			projectid = args[0];
 		} else {
-			ErrorHandler.CustomEmbedError("Invalid project ID.", event);
+			EmbedGenerator.CustomEmbedError("Invalid project ID.", event);
 			return;
 		}
 		if (args.length > 1) {
@@ -33,7 +33,7 @@ public class DeleteProjectCommand implements AdminCommand, DBCommand {
 				ProjectManager.deleteProject(event, projectid);
 			}
 		} else {
-			ErrorHandler.CustomEmbed(":warning: Warning! You are about to delete a project! To confirm your decision, execute `ed!delproject <projectid> confirm`.", new Color(193, 114, 0), event);
+			EmbedGenerator.CustomEmbed(":warning: Warning! You are about to delete a project! To confirm your decision, execute `ed!delproject <projectid> confirm`.", new Color(193, 114, 0), event);
 		}
 	}
 
