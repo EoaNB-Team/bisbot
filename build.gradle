@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-project.version = '1.3.2'
+project.version = '1.4.0'
 project.group = 'org.eoanb'
 project.archivesBaseName = 'edbotJ'
 project.description = 'Discord bot developed for the EoaNB project.'
