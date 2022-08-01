@@ -2,6 +2,7 @@ package commands;
 
 import commands.database.devs.*;
 import commands.database.hiatuses.AddHiatusCommand;
+import commands.database.hiatuses.ListHiatusesCommand;
 import commands.database.hiatuses.RemoveHiatusCommand;
 import commands.database.hiatuses.UpdateHiatusCommand;
 import commands.database.playtest.*;
@@ -26,6 +27,7 @@ public class CommandBucket {
 			new AddHiatusCommand(),
 			new RemoveHiatusCommand(),
 			new UpdateHiatusCommand(),
+			new ListHiatusesCommand(),
 			new ZonesCommand(),
 			new ProcuratoresCommand(),
 			new ReqReportCommand(),

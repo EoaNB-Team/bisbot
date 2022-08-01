@@ -44,7 +44,7 @@ public class ReqAllReportsCommand implements DBCommand {
 		Object[][] playtests = PlaytestReportManager.getPlaytestsFromDB(event, zone);
 
 		// Will happen if there aren't any registered playtests.
-		if (playtests == null) {
+		if (playtests.length == 0) {
 			EmbedGenerator.CustomEmbedError("No playtests are registered.", event);
 			return;
 		}

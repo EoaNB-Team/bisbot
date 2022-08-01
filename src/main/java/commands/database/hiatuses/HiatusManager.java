@@ -20,4 +20,15 @@ public class HiatusManager {
 		String sql = "UPDATE " + TABLE_NAME + " SET reason=?, end=?, start=? WHERE userid=?";
 		return DatabaseManager.publish(sql, event, reason, end, start, Long.valueOf(userid));
 	}
+
+	public static String[][] getHiatuses(MessageReceivedEvent event) {
+		String sql = "SELECT * FROM " + TABLE_NAME;
+		Object[][] res = DatabaseManager.getTable(sql, event);
+
+		for (Object[] obj : res) {
+			obj[0] = Long.toString((long) obj[0]);
+		}
+
+		return (String[][]) res;
+	}
 }

@@ -4,7 +4,7 @@ import core.DatabaseManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DevManager {
-	private static final String TABLE_NAME = "hiatuses";
+	private static final String TABLE_NAME = "devs";
 
 	public static boolean clearDevsDB(MessageReceivedEvent event) {
 		String sql = "DELETE FROM " + TABLE_NAME;
