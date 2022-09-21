@@ -43,7 +43,15 @@ public class VoteCommand implements GeneralCommand, DBCommand {
 			return;
 		}
 
-		// TODO Start voting for this user.
+		switch (VoteDatabaseInterface.getActiveVoteType(voteID)) {
+			case "ranked":
+				break;
+			case "binary":
+				break;
+			default:
+				logger.error("Vote type {} not accepted.", VoteDatabaseInterface.getActiveVoteType(voteID));
+				break;
+		}
 	}
 
 	@Override

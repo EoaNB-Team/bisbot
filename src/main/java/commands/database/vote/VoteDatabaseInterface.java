@@ -3,7 +3,15 @@ package commands.database.vote;
 import core.DatabaseManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import javax.xml.crypto.Data;
+
 public class VoteDatabaseInterface {
+	// TODO: Implement this on the database-side.
+	public enum VoteType {
+		RANKED,
+		BINARY
+	}
+
 	public static final String ACTIVE_VOTES_TABLE = "active_votes";
 
 	public static void addNewVote(MessageReceivedEvent event, int id, String summary, String type) {
@@ -19,6 +27,11 @@ public class VoteDatabaseInterface {
 	public static Object[][] getVotes() {
 		String sql = "SELECT ID, summary FROM " + ACTIVE_VOTES_TABLE;
 		return DatabaseManager.getTable(sql);
+	}
+
+	public static String getActiveVoteType(int id) {
+		String sql = "SELECT type FROM " + ACTIVE_VOTES_TABLE + " WHERE ID=?";
+		return (String) DatabaseManager.getTable(sql, id)[0][0];
 	}
 
 	public static boolean hasAnyActiveVotes() {
